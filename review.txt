@@ -1,1 +1,9 @@
 kéo dự án về chạy npm install
+
+scss
+npm install --save-exact sass@1.53.0
+
+dung fragments ko phai boc the div ben ngoai
+
+<>
+</>

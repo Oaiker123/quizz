@@ -1,69 +1,49 @@
 //class components
 //function Component
 import React from "react";
+import AddUserInfor from "./AddUserInfor";
+import DisplayInfor from "./DisplayInfor";
 
 class MyComponent extends React.Component {
   state = {
-    name: "Oai",
-    address: "Ha Noi",
-    phone: "0123456789",
-    age: 21,
+    listUser: [
+      { id: 1, name: "Oai", age: 21 },
+      { id: 2, name: "Hanh", age: 22 },
+      { id: 3, name: "Thang", age: 29 },
+    ],
   };
 
-  handleClick(event) {
-    console.log("My name is", this.state.name);
-    console.log("My age is", Math.floor(Math.random() * 100) + 1); //random age
+  handleAddNewUser = (userObj) => {
+    console.log(">>> check data: ", userObj);
+    // alert("click me");
+    // Cach 01:
     this.setState({
-      name: "Oai Tran",
-      address: "Ha Noi",
-      phone: "0123456789",
-      age: 21,
-    }); //cap nhat gia tri
-    console.log(event.target);
-  }
-
-  handleOnMoverOver(event) {
-    console.log(event.target);
-    this.setState({
-      name: "Oai Tran",
-      address: "Ha Noi",
-      phone: "0123456789",
-      age: Math.floor(Math.random() * 100 + 1), //random age
-    });
-  }
-
-  handleOnChangeInput = (event) => {
-    console.log(event.target.value);
-    this.setState({
-      name: event.target.value,
+      listUser: [userObj, ...this.state.listUser],
     });
   };
 
-  handleOnSubnmit = (event) => {
-    event.preventDefault(); //ngan chan reload trang
-    console.log("submit form");
-    console.log(this.state)
-  }
+  handleDeleteUser = (userId) => {
+    console.log("Deleting user with ID:", userId);
+    let listUserClone = [...this.state.listUser];
+    listUserClone = listUserClone.filter((item) => item.id !== userId);
+    this.setState({
+      listUser: listUserClone,
+    });
+  };
+
   //jsx
+  //DRY: don't repeat yourself
   render() {
+    // const MyAge = 50;
+    // const myInfor = ['UserInfor', 'DisplayInfor'];
     return (
-      <div>
-        My name is {this.state.name} <br />
-        My address is {this.state.address} <br />
-        My phone is {this.state.phone} <br />
-        My age is {this.state.age} <br />
-        {/* <button onClick={(event) => {this.handleOnMoverOver(event)}}>Click Me</button>
-        <button onClick={(event) => {this.handleClick(event)}}>Click Me</button> */}
-        <form action="" onSubmit={(event) => this.handleOnSubnmit(event)}>
-          <input
-            type="text"
-            name=""
-            id=""
-            onChange={(event) => this.handleOnChangeInput(event)}
-          />
-          <button type="submit">Submit</button>
-        </form>
-      </div>
+      <>
+        <AddUserInfor handleAddNewUser={this.handleAddNewUser} />
+        <DisplayInfor
+          listUser={this.state.listUser}
+          handleDeleteUser={this.handleDeleteUser}//loi hay truyền sai
+        />
+      </>
     );
   }
 }
