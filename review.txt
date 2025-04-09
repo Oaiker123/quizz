@@ -1,0 +1,15 @@
+tạo project react npm create vite@latest my-react-app
+cd my-react-app
+npm install
+npm run dev
+
+npm install react-icons
+npm install --save-exact react-pro-sidebar@0.7.1
+
+nếu đang ở bản react cao thì nếu cần hạ xuống bản 18
+npm install react@18 react-dom@18
+
+npm install -D tailwindcss@3 postcss autoprefixer
+npx tailwindcss init -p
+
+npm i @heroui/react framer-motion
