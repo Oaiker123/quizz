@@ -13,3 +13,5 @@ npm install -D tailwindcss@3 postcss autoprefixer
 npx tailwindcss init -p
 
 npm i @heroui/react framer-motion
+
+$ npm i --save lodash

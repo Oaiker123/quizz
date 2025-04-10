@@ -8,15 +8,19 @@ import {
   Input,
   Select,
   SelectItem,
-  addToast,
 } from "@heroui/react";
 import { FaCamera } from "react-icons/fa";
 import { useState } from "react";
-import axios from "axios";
 import { Toaster, toast } from "sonner";
+import { postCreateUser } from "../../../services/apiService";
 
-const ModalCreateUser = ({ show, setShow }) => {
+const ModalCreateUser = ({ show, setShow, fetchListUser }) => {
   const handleClose = () => {
+    // Remove focus before hiding modal
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+
     setShow(false);
     setEmail("");
     setPassword("");
@@ -49,38 +53,34 @@ const ModalCreateUser = ({ show, setShow }) => {
   const handleSaveUser = async () => {
     const isValidEmail = validateEmail(email);
     if (!isValidEmail) {
-      toast("Email invalid!");
+      toast.error("Invalid Email", {
+        description: "Please enter a valid email address.",
+        duration: 3000,
+        position: "top-right",
+      });
       return;
     }
 
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
-    formData.append("username", username);
-    formData.append("role", role);
-    formData.append("userImage", image);
+    if (!password) {
+      toast.error("Invalid Password", {
+        description: "Please enter a valid password.",
+        duration: 3000,
+        position: "top-right",
+      });
+      return;
+    }
 
-    try {
-      axios.post("http://localhost:8081/api/v1/participant", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      addToast({
-        title: "Success",
-        description: "User created successfully!",
-        variant: "solid",
-        color: "success",
-      });
+    const data = await postCreateUser(email, password, username, role, image);
+    console.log("Component res: ", data);
+
+    if (data && data.EC === 0) {
+      toast.success(data.EM);
       handleClose();
-    } catch (error) {
-      addToast({
-        title: "Error",
-        description: "Failed to create user.",
-        variant: "solid",
-        color: "danger",
-      });
-      console.error("Error uploading file:", error);
+      await fetchListUser();
+    }
+
+    if (data && data.EC !== 0) {
+      toast.error(data.EM);
     }
   };
 
@@ -145,12 +145,7 @@ const ModalCreateUser = ({ show, setShow }) => {
                     hidden
                     onChange={handleUploadImage}
                   />
-                  <div>
-                    <Toaster />
-                    {/* <button onClick={() => toast("My first toast")}>
-                      Give me a toast
-                    </button> */}
-                  </div>
+                  <div></div>
                 </div>
                 <div className="flex items-center justify-center border rounded-md h-[150px]">
                   {previewImage ? (
