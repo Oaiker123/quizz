@@ -2,9 +2,11 @@ import { Button } from "@heroui/react";
 import ModalCreateUser from "./modalCreateUser";
 import TableUser from "./tableUser";
 import React, { useEffect, useState } from "react";
-import { getAllUsers } from "../../../services/apiService";
+import { getAllUsers, getUserWithPaginate } from "../../../services/apiService";
 import ModalUpdateUser from "./modalUpdateUser";
 import ModalDeleteUser from "./modalDeleteUser";
+import ModalDetailUser from "./modalDetailUser";
+import TableUserPaginate from "./tableUserPaginate";
 
 export const PlusIcon = ({ size = 24, width, height, ...props }) => {
   return (
@@ -33,6 +35,12 @@ export const PlusIcon = ({ size = 24, width, height, ...props }) => {
 };
 
 const ManageUser = () => {
+  const LIMIT_PAGINATE = 5;
+
+  const [pageCount, setPageCount] = useState(0);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
   const [showModalCreateUser, setShowModalCreateUser] = useState(false);
 
   const [showModalUpdateUser, setShowModalUpdateUser] = useState(false);
@@ -48,7 +56,8 @@ const ManageUser = () => {
   ]);
 
   useEffect(() => {
-    fetchListUser();
+    // fetchListUser();
+    fetchListUserWithPaginate(1);
   }, [])
 
   const fetchListUser = async () => {
@@ -56,6 +65,16 @@ const ManageUser = () => {
     console.log(res);
     if (res && res.EC === 0) {
       setListUser(res.DT);
+    }
+  }
+
+  const fetchListUserWithPaginate = async (page) => {
+    let res = await getUserWithPaginate(page, LIMIT_PAGINATE);
+    console.log(res);
+    if (res && res.EC === 0) {
+      console.log(res.DT);
+      setListUser(res.DT.users);
+      setPageCount(res.DT.totalPages);
     }
   }
 
@@ -70,10 +89,18 @@ const ManageUser = () => {
   }
 
   const handleClickButtonDelete = (user) => {
-    console.log('data delete',user);
+    console.log('data delete', user);
     setShowModalDeleteUser(true);
     setDataDelete(user);
 
+  };
+
+  const [showModalDetailUser, setShowModalDetailUser] = useState(false);
+  const [dataDetail, setDataDetail] = useState({});
+
+  const handleClickButtonDetails = (user) => {
+    setShowModalDetailUser(true);
+    setDataDetail(user);
   };
 
 
@@ -86,16 +113,30 @@ const ManageUser = () => {
         </Button>
       </div>
       <div className="flex justify-between items-center mb-6">
-        <TableUser
+        {/* <TableUser
           listUser={listUser}
           handleClickButtonUpdate={handleClickButtonUpdate}
           handleClickButtonDelete={handleClickButtonDelete}
+          handleClickButtonDetails={handleClickButtonDetails}
+        /> */}
+        <TableUserPaginate
+          listUser={listUser}
+          handleClickButtonUpdate={handleClickButtonUpdate}
+          handleClickButtonDelete={handleClickButtonDelete}
+          handleClickButtonDetails={handleClickButtonDetails}
+          fetchListUserWithPaginate={fetchListUserWithPaginate}
+          pageCount={pageCount}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
         />
       </div>
       <ModalCreateUser
         show={showModalCreateUser}
         setShow={setShowModalCreateUser}
         fetchListUser={fetchListUser}
+        fetchListUserWithPaginate={fetchListUserWithPaginate}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
       />
       <ModalUpdateUser
         show={showModalUpdateUser}
@@ -103,11 +144,23 @@ const ManageUser = () => {
         dataUpdate={dataUpdate}
         fetchListUser={fetchListUser}
         resetUpdateData={resetUpdateData}
+        fetchListUserWithPaginate={fetchListUserWithPaginate}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
       />
       <ModalDeleteUser
         show={showModalDeleteUser}
         setShow={setShowModalDeleteUser}
         dataDelete={dataDelete}
+        fetchListUser={fetchListUser}
+        fetchListUserWithPaginate={fetchListUserWithPaginate}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
+      <ModalDetailUser
+        show={showModalDetailUser}
+        setShow={setShowModalDetailUser}
+        dataDetail={dataDetail}
       />
     </div>
   );

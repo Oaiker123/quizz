@@ -8,6 +8,9 @@ import {
     Tooltip,
     Button,
 } from "@heroui/react";
+import React from 'react';
+import ReactPaginate from 'react-paginate';
+import { Pagination } from "@heroui/react";
 
 export const EyeIcon = (props) => {
     return (
@@ -131,8 +134,23 @@ export const EditIcon = (props) => {
 };
 
 
-const TableUser = (props) => {
-    const { listUser } = props;
+const TableUserPaginate = (props) => {
+    const { listUser, pageCount } = props;
+
+    // const handlePageClick = (event) => {
+    //     props.fetchListUserWithPaginate(+event.selected + 1);
+    //     props.setCurrentPage(+event.selected + 1);
+    //     console.log(
+    //         `User requested page number ${event.selected}`
+    //     );
+    // };
+
+    const handlePageChange = (page) => {
+        props.fetchListUserWithPaginate(page);
+        props.setCurrentPage(page);
+        console.log(`User selected page ${page}`);
+    };
+
 
 
     return (
@@ -198,8 +216,43 @@ const TableUser = (props) => {
                     }
                 </TableBody>
             </Table>
+
+            <div className="flex items-center justify-center mt-4">
+                {/* <ReactPaginate
+                    nextLabel="Next >"
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={3}
+                    marginPagesDisplayed={2}
+                    pageCount={pageCount}
+                    previousLabel="< Previous"
+                    pageClassName="page-item"
+                    pageLinkClassName="page-link"
+                    previousClassName="page-item"
+                    previousLinkClassName="page-link"
+                    nextClassName="page-item"
+                    nextLinkClassName="page-link"
+                    breakLabel="..."
+                    breakClassName="page-item"
+                    breakLinkClassName="page-link"
+                    containerClassName="pagination"
+                    activeClassName="active"
+                    renderOnZeroPageCount={null}
+                    forcePage={props.currentPage - 1}
+                /> */}
+
+                <Pagination
+                    disableCursorAnimation
+                    showControls
+                    className="gap-2"
+                    radius="full"
+                    color="success"
+                    total={pageCount}
+                    page={props.currentPage}
+                    onChange={handlePageChange}
+                />
+            </div>
         </div>
     );
 };
 
-export default TableUser;
+export default TableUserPaginate;

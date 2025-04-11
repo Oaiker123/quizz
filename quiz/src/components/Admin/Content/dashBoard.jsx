@@ -1,10 +1,9 @@
 const DashBoard = () => {
   return (
-    <div className="dashBoard">
-      <h1>DashBoard</h1>
-      <p>Welcome to the admin dashboard!</p>
-    </div>
-  );
+    <>
+     <h1>Dashboard</h1>
+    </>
+  )
 };
 
 export default DashBoard;

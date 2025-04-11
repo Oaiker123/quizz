@@ -14,7 +14,9 @@ import { useState } from "react";
 import { Toaster, toast } from "sonner";
 import { postCreateUser } from "../../../services/apiService";
 
-const ModalCreateUser = ({ show, setShow, fetchListUser }) => {
+const ModalCreateUser = (props) => {
+  const { show, setShow} = props;
+
   const handleClose = () => {
     // Remove focus before hiding modal
     if (document.activeElement instanceof HTMLElement) {
@@ -25,7 +27,7 @@ const ModalCreateUser = ({ show, setShow, fetchListUser }) => {
     setEmail("");
     setPassword("");
     setUsername("");
-    setRole("User");
+    setRole("USER");
     setImage("");
     setPreviewImage("");
   };
@@ -33,7 +35,7 @@ const ModalCreateUser = ({ show, setShow, fetchListUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  const [role, setRole] = useState("User");
+  const [role, setRole] = useState("USER");
   const [image, setImage] = useState("");
   const [previewImage, setPreviewImage] = useState("");
 
@@ -76,7 +78,9 @@ const ModalCreateUser = ({ show, setShow, fetchListUser }) => {
     if (data && data.EC === 0) {
       toast.success(data.EM);
       handleClose();
-      await fetchListUser();
+      // await fetchListUser();
+      props.setCurrentPage(1);
+      await props.fetchListUserWithPaginate(1);
     }
 
     if (data && data.EC !== 0) {
@@ -123,11 +127,11 @@ const ModalCreateUser = ({ show, setShow, fetchListUser }) => {
                     onChange={(event) => setRole(event.target.value)}
                     value={role}
                   >
-                    <SelectItem key="User" value="User">
-                      User
+                    <SelectItem key="USER" value="USER">
+                      USER
                     </SelectItem>
-                    <SelectItem key="Admin" value="Admin">
-                      Admin
+                    <SelectItem key="ADMIN" value="ADMIN">
+                      ADMIN
                     </SelectItem>
                   </Select>
                 </div>

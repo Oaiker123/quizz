@@ -16,7 +16,7 @@ import { putUpdateUser } from "../../../services/apiService";
 import _ from "lodash";
 
 const ModalUpdateUser = (props) => {
-    const { show, setShow, dataUpdate, fetchListUser } = props;
+    const { show, setShow, dataUpdate } = props;
     const handleClose = () => {
         // Remove focus before hiding modal
         if (document.activeElement instanceof HTMLElement) {
@@ -27,7 +27,7 @@ const ModalUpdateUser = (props) => {
         setEmail("");
         setPassword("");
         setUsername("");
-        setRole("User");
+        setRole("USER");
         setImage("");
         setPreviewImage("");
         props.resetUpdateData();
@@ -36,7 +36,7 @@ const ModalUpdateUser = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
-    const [role, setRole] = useState("User");
+    const [role, setRole] = useState("USER");
     const [image, setImage] = useState("");
     const [previewImage, setPreviewImage] = useState("");
 
@@ -89,7 +89,9 @@ const ModalUpdateUser = (props) => {
         if (data && data.EC === 0) {
             toast.success(data.EM);
             handleClose();
-            await fetchListUser();
+            // await fetchListUser();
+            // props.setCurrentPage(1);
+            await props.fetchListUserWithPaginate(props.currentPage);
         }
 
         if (data && data.EC !== 0) {
@@ -143,8 +145,8 @@ const ModalUpdateUser = (props) => {
                                             setRole(selected);
                                         }}
                                     >
-                                        <SelectItem key="User">User</SelectItem>
-                                        <SelectItem key="Admin">Admin</SelectItem>
+                                        <SelectItem key="USER">USER</SelectItem>
+                                        <SelectItem key="ADMIN">ADMIN</SelectItem>
                                     </Select>
                                 </div>
                                 <div>

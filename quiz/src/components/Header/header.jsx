@@ -15,7 +15,7 @@ import {
   DropdownMenu,
   Avatar,
 } from "@heroui/react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export const AcmeLogo = () => {
   return (
@@ -31,7 +31,8 @@ export const AcmeLogo = () => {
   );
 };
 
-export default function Header() {
+const Header = () => {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const menuItems = [
@@ -39,6 +40,16 @@ export default function Header() {
     "Settings",
     "Log Out",
   ];
+
+  const handleLogin = () => {
+    // alert("Login");
+    navigate("/login");
+  }
+
+  const handleSignUp = () => {
+    // alert("Sign Up");
+    navigate("/signup");
+  }
 
   return (
     <Navbar
@@ -63,8 +74,7 @@ export default function Header() {
           <NavLink
             to="/"
             className={({ isActive }) =>
-              `no-underline text-sm font-medium transition-colors ${
-                isActive ? "text-primary" : "text-foreground hover:text-primary"
+              `no-underline text-sm font-medium transition-colors ${isActive ? "text-primary" : "text-foreground hover:text-primary"
               }`
             }
           >
@@ -75,8 +85,7 @@ export default function Header() {
           <NavLink
             to="/user"
             className={({ isActive }) =>
-              `no-underline text-sm font-medium transition-colors ${
-                isActive ? "text-primary" : "text-foreground hover:text-primary"
+              `no-underline text-sm font-medium transition-colors ${isActive ? "text-primary" : "text-foreground hover:text-primary"
               }`
             }
           >
@@ -87,8 +96,7 @@ export default function Header() {
           <NavLink
             to="/admin"
             className={({ isActive }) =>
-              `no-underline text-sm font-medium transition-colors ${
-                isActive ? "text-primary" : "text-foreground hover:text-primary"
+              `no-underline text-sm font-medium transition-colors ${isActive ? "text-primary" : "text-foreground hover:text-primary"
               }`
             }
           >
@@ -99,7 +107,12 @@ export default function Header() {
 
       <NavbarContent justify="end">
         <NavbarItem className="lg:flex">
-          <Button color="primary" variant="bordered" radius="full">
+          <Button
+            color="primary"
+            variant="bordered"
+            radius="full"
+            onPress={() => handleLogin()}
+          >
             Login
           </Button>
         </NavbarItem>
@@ -107,6 +120,7 @@ export default function Header() {
           <Button
             className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
             radius="full"
+            onPress={() => handleSignUp()}
           >
             Sign Up
           </Button>
@@ -122,8 +136,8 @@ export default function Header() {
                 index === 2
                   ? "primary"
                   : index === menuItems.length - 1
-                  ? "danger"
-                  : "foreground"
+                    ? "danger"
+                    : "foreground"
               }
               href="#"
               size="lg"
@@ -136,3 +150,5 @@ export default function Header() {
     </Navbar>
   );
 }
+
+export default Header;
