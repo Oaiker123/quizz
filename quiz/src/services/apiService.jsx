@@ -1,3 +1,4 @@
+
 import axios from "../utils/axiosCustomize";
 
 const postCreateUser = (email, password, username, role, image) => {
@@ -24,7 +25,7 @@ const putUpdateUser = (id, username, role, image) => {
 };
 
 const getDeleteUsers = (userId) => {
-  return axios.delete("api/v1/participant", { data: { id: userId }} );
+  return axios.delete("api/v1/participant", { data: { id: userId } });
 }
 
 const getUserWithPaginate = (page, limit) => {
@@ -32,18 +33,22 @@ const getUserWithPaginate = (page, limit) => {
 }
 
 const postLogin = (userEmail, userPassword) => {
-  return axios.post(`/api/v1/login`, { email: userEmail, password: userPassword });
+  return axios.post(`/api/v1/login`, {
+    email: userEmail,
+    password: userPassword,
+    delay: 2000
+  });
 }
 
 const postSignUp = (userEmail, userPassword, userName) => {
   return axios.post(`/api/v1/register`, { email: userEmail, password: userPassword, username: userName });
 }
 
-export { 
-  postCreateUser, 
-  getAllUsers, 
-  putUpdateUser, 
-  getDeleteUsers, 
+export {
+  postCreateUser,
+  getAllUsers,
+  putUpdateUser,
+  getDeleteUsers,
   getUserWithPaginate,
   postLogin,
   postSignUp

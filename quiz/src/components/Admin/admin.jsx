@@ -1,5 +1,5 @@
 import SideBar from "./SideBar";
-import "./Admin.scss";
+// import "./Admin.scss";
 import { FaBars } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
@@ -27,15 +27,15 @@ const Admin = () => {
   }
 
   return (
-    <div className="admin-container">
-      <div className="admin-sidebar">
+    <div className="flex min-h-screen">
+      <div className="">
         <SideBar collapsed={collapsed} />
       </div>
-      <div className="admin-content">
-        <div className="admin-header">
+      <div className="w-full">
+        <div className="admin-toggle cursor-pointer p-2">
           <FaBars onClick={() => setCollapsed(!collapsed)} />
         </div>
-        <div className="admin-main">
+        <div className="">
           <Outlet />
         </div>
       </div>

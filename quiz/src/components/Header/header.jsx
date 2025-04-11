@@ -16,6 +16,8 @@ import {
   Avatar,
 } from "@heroui/react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { Icon } from "@iconify/react";
+import { useSelector } from "react-redux";
 
 export const AcmeLogo = () => {
   return (
@@ -32,13 +34,27 @@ export const AcmeLogo = () => {
 };
 
 const Header = () => {
+
+  const isAuthenticated = useSelector(state => state.user.isAuthenticated);
+
+  // const account = useSelector(state => state.user.account);
+
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const menuItems = [
-    "Profile",
-    "Settings",
-    "Log Out",
+    {
+      label: "Home",
+      href: "/",
+    },
+    {
+      label: "User",
+      href: "/user",
+    },
+    {
+      label: "Admin",
+      href: "/admin",
+    },
   ];
 
   const handleLogin = () => {
@@ -105,31 +121,68 @@ const Header = () => {
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarContent justify="end">
-        <NavbarItem className="lg:flex">
-          <Button
-            color="primary"
-            variant="bordered"
-            radius="full"
-            onPress={() => handleLogin()}
-          >
-            Login
-          </Button>
-        </NavbarItem>
-        <NavbarItem>
-          <Button
-            className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
-            radius="full"
-            onPress={() => handleSignUp()}
-          >
-            Sign Up
-          </Button>
-        </NavbarItem>
-      </NavbarContent>
+      {isAuthenticated === false ?
+        <>
+          <NavbarContent justify="end">
+            <NavbarItem className="lg:flex">
+              <Button
+                color="primary"
+                variant="bordered"
+                radius="full"
+                onPress={() => handleLogin()}
+              >
+                Login
+              </Button>
+            </NavbarItem>
+            <NavbarItem>
+              <Button
+                className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
+                radius="full"
+                onPress={() => handleSignUp()}
+              >
+                Sign Up
+              </Button>
+            </NavbarItem>
+          </NavbarContent>
+        </>
+          : 
+        <>
+          <NavbarContent justify="end">
+          <Dropdown>
+            <DropdownTrigger>
+              <div className="flex items-center gap-2">
+                <Avatar
+                  isBordered
+                  size="sm"
+                  src="https://img.heroui.chat/image/avatar?w=150&h=150&u=1"
+                  className="transition-transform"
+                />
+                <span className="text-sm font-medium text-default-600">John Doe</span>
+                <Icon
+                  icon="lucide:chevron-down"
+                  className="text-default-500 text-sm"
+                />
+              </div>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Profile Actions" sideOffset={5}>
+              <DropdownItem key="profile">
+                Trần Bá Oai
+              </DropdownItem>
+              <DropdownItem key="settings">
+                Settings
+              </DropdownItem>
+              <DropdownItem key="logout" withDivider>
+                Log Out
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+          </NavbarContent>
+        </>
+      }
 
       <NavbarMenu>
         {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
+          <NavbarMenuItem key={item.label}>
             <Link
               className="w-full"
               color={
@@ -139,10 +192,10 @@ const Header = () => {
                     ? "danger"
                     : "foreground"
               }
-              href="#"
+              href={item.href}
               size="lg"
             >
-              {item}
+              {item.label}
             </Link>
           </NavbarMenuItem>
         ))}

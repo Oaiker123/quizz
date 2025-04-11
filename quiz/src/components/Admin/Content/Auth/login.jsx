@@ -1,14 +1,19 @@
 import React, { useState } from "react";
-import { Input, Button, Link, Card } from "@heroui/react";
+import { Input, Button, Link, Card, Spinner } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
-import { postLogin } from "../../../../services/apiService";  
+import { postLogin } from "../../../../services/apiService";
 import { toast } from "sonner";
+import { useDispatch } from "react-redux";
+import { doLogin } from "../../../../redux/action/userAction";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const validateEmail = (email) => {
         return String(email)
@@ -18,7 +23,7 @@ const Login = () => {
             );
     };
 
-    const handleLogin = async() => {
+    const handleLogin = async () => {
         // alert("Login");
         //validate email and password
         const isValidEmail = validateEmail(email);
@@ -30,12 +35,16 @@ const Login = () => {
         if (!password) {
             toast.error("Invalid Password");
             return;
-        } 
+        }
+
+        setIsLoading(true);
 
         //submit to server
         let data = await postLogin(email, password);
         if (data && data.EC === 0) {
+            dispatch(doLogin(data.DT));
             toast.success(data.EM);
+            setIsLoading(false);
             navigate("/")
         }
 
@@ -81,8 +90,12 @@ const Login = () => {
                         radius="sm"
                         className="w-full font-semibold text-[1.0625rem]"
                         onPress={() => handleLogin()}
+                        disabled={isLoading}
                     >
-                        Log In
+                        {isLoading === true &&
+                            <Spinner variant="spinner" color="warning" size="sm" />
+                        }
+                        <span>Login</span>
                     </Button>
 
                     <div className="text-center">
@@ -104,7 +117,7 @@ const Login = () => {
 
                     <div className="text-center">
                         <Button
-                            color="primary" 
+                            color="primary"
                             variant="bordered"
                             onPress={() => navigate("/signup")}
                         >
@@ -117,9 +130,9 @@ const Login = () => {
                         <div className="w-full border-t border-divider"></div>
                     </div>
                     <div className="relative flex justify-center">
-                        <span 
-                        className="bg-content1 px-4 text-sm text-default-500"
-                        onClick={() => navigate("/")}
+                        <span
+                            className="bg-content1 px-4 text-sm text-default-500"
+                            onClick={() => navigate("/")}
                         >
                             &#60;&#60; Go to home page
                         </span>

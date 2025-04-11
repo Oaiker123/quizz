@@ -1,6 +1,15 @@
 import videoHomePage from "../../assets/video.mp4";
+import { useSelector } from "react-redux";
 
 const HomePage = () => {
+
+  const isAuthenticated = useSelector(state => state.user.isAuthenticated);
+
+  const account = useSelector(state => state.user.account);
+
+  console.log('isAuthenticated: ', isAuthenticated);
+  console.log('account: ', account);
+
   return (
     <div className="flex flex-wrap items-center justify-center gap-12 p-12 bg-[#f9f7fc]">
       <div className="w-full max-w-[700px]">
