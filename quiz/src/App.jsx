@@ -24,7 +24,7 @@ const App = () => {
   }
 
   return (
-    <div className="app-container">
+    <div>
       <Header />
       <main className="app-content">
         <Outlet />

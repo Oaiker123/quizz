@@ -70,7 +70,7 @@ const Header = () => {
   return (
     <Navbar
       onMenuOpenChange={setIsMenuOpen}
-      className="mt-3 bg-white shadow-sm"
+      className="top-2 left-0 right-0 mt-0 bg-white"
     >
       <NavbarContent>
         <NavbarMenuToggle
@@ -145,37 +145,37 @@ const Header = () => {
             </NavbarItem>
           </NavbarContent>
         </>
-          : 
+        :
         <>
           <NavbarContent justify="end">
-          <Dropdown>
-            <DropdownTrigger>
-              <div className="flex items-center gap-2">
-                <Avatar
-                  isBordered
-                  size="sm"
-                  src="https://img.heroui.chat/image/avatar?w=150&h=150&u=1"
-                  className="transition-transform"
-                />
-                <span className="text-sm font-medium text-default-600">John Doe</span>
-                <Icon
-                  icon="lucide:chevron-down"
-                  className="text-default-500 text-sm"
-                />
-              </div>
-            </DropdownTrigger>
-            <DropdownMenu aria-label="Profile Actions" sideOffset={5}>
-              <DropdownItem key="profile">
-                Trần Bá Oai
-              </DropdownItem>
-              <DropdownItem key="settings">
-                Settings
-              </DropdownItem>
-              <DropdownItem key="logout" withDivider>
-                Log Out
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+            <Dropdown>
+              <DropdownTrigger>
+                <div className="flex items-center gap-2">
+                  <Avatar
+                    isBordered
+                    size="sm"
+                    src="https://img.heroui.chat/image/avatar?w=150&h=150&u=1"
+                    className="transition-transform"
+                  />
+                  <span className="text-sm font-medium text-default-600">John Doe</span>
+                  <Icon
+                    icon="lucide:chevron-down"
+                    className="text-default-500 text-sm"
+                  />
+                </div>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Profile Actions" sideOffset={5}>
+                <DropdownItem key="profile">
+                  Trần Bá Oai
+                </DropdownItem>
+                <DropdownItem key="settings">
+                  Settings
+                </DropdownItem>
+                <DropdownItem key="logout" withDivider>
+                  Log Out
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </NavbarContent>
         </>
       }

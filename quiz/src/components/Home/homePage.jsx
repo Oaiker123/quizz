@@ -1,5 +1,6 @@
 import videoHomePage from "../../assets/video.mp4";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
 
@@ -7,8 +8,11 @@ const HomePage = () => {
 
   const account = useSelector(state => state.user.account);
 
+  const navigate = useNavigate();
+
   console.log('isAuthenticated: ', isAuthenticated);
   console.log('account: ', account);
+
 
   return (
     <div className="flex flex-wrap items-center justify-center gap-12 p-12 bg-[#f9f7fc]">
@@ -31,9 +35,21 @@ const HomePage = () => {
           your knowledge, and compete with others as you explore quizzes across
           countless exciting topics.
         </p>
-        <button className="px-6 py-3 bg-[#493B8E] text-white rounded-lg font-semibold hover:bg-[#F50067] transition-colors duration-300">
-          ✨ Let’s get started!
-        </button>
+        {isAuthenticated === false ?
+          <button
+            onClick={() => navigate('/login')}
+            className="px-6 py-3 bg-[#493B8E] text-white rounded-lg font-semibold hover:bg-[#F50067] transition-colors duration-300"
+          >
+            ✨ Get's started. It's free
+          </button>
+          :
+          <button
+            onClick={() => navigate('/user')}
+            className="px-6 py-3 bg-[#493B8E] text-white rounded-lg font-semibold hover:bg-[#F50067] transition-colors duration-300"
+          >
+            ✨ Doing Quiz Now!
+          </button>
+        }
       </div>
     </div>
   );
