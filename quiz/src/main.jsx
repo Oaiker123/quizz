@@ -9,7 +9,7 @@ import { Provider } from "react-redux";
 import { store, persistor } from './redux/store';
 import 'nprogress/nprogress.css';
 import { PersistGate } from 'redux-persist/integration/react'
-
+import 'react-perfect-scrollbar/dist/css/styles.css';
 
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>

@@ -11,7 +11,7 @@ const Question = (props) => {
 
     const handleCheckBox = (event, aId, qId) => {
         // console.log("Checked: ", event.target.checked);
-        console.log("aId: ", aId, "qId: ", qId);
+        // console.log("aId: ", aId, "qId: ", qId);
         props.handleCheckBox(aId, qId);
 
     }
@@ -45,14 +45,17 @@ const Question = (props) => {
                         // >
                         //     {a.description}
                         // </Checkbox>
-                        <div className="form-check">
+                        <div
+                            className="form-check"
+                            key={`answer-${index}`}
+                        >
                             <input
                                 className="form-check-input"
                                 type="checkbox"
                                 checked={a.isSelected}
                                 onChange={(event) => handleCheckBox(event, a.id, data.questionId)}
                             />
-                            <label className="form-check-label" htmlFor={`answer-${index}`}>
+                            <label className="form-check-label">
                                 {a.description}
                             </label>
                         </div>

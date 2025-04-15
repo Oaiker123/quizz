@@ -1,16 +1,10 @@
-import {
-    Table,
-    TableHeader,
-    TableColumn,
-    TableBody,
-    TableRow,
-    TableCell,
-    Tooltip,
-    Button,
-} from "@heroui/react";
-import React from 'react';
-import ReactPaginate from 'react-paginate';
-import { Pagination } from "@heroui/react";
+import { Table, Tooltip, TableHeader, TableColumn, TableBody, TableRow, TableCell, Pagination } from "@heroui/react";
+import { useEffect, useState } from "react";
+import { getAllQuizForAdmin } from "../../../../services/apiService";
+import ModalDeleteQuiz from "./modalDeleteQuiz";
+import ModalUpdateQuiz from "./modalUpdateQuiz";
+import ModalDetailQuiz from "./modalDetailQuiz";
+
 
 export const EyeIcon = (props) => {
     return (
@@ -133,71 +127,97 @@ export const EditIcon = (props) => {
     );
 };
 
+const TableQuiz = () => {
 
-const TableUserPaginate = (props) => {
-    const { listUser, pageCount } = props;
+    const [listQuiz, setListQuiz] = useState([]);
+    const [isShowModalUpdate, setIsShowModalUpdate] = useState(false);
+    const [isShowModalDelete, setIsShowModalDelete] = useState(false);
+    const [isShowModalDetail, setIsShowModalDetail] = useState(false);
+    const [dataUpdate, setDataUpdate] = useState({});
+    const [dataDelete, setDataDelete] = useState({});
+    const [dataDetail, setDataDetail] = useState({});
 
-    // const handlePageClick = (event) => {
-    //     props.fetchListUserWithPaginate(+event.selected + 1);
-    //     props.setCurrentPage(+event.selected + 1);
-    //     console.log(
-    //         `User requested page number ${event.selected}`
-    //     );
-    // };
+    useEffect(() => {
+        fetchQuiz();
+    }, []);
 
-    const handlePageChange = (page) => {
-        props.fetchListUserWithPaginate(page);
-        props.setCurrentPage(page);
-        console.log(`User selected page ${page}`);
-    };
+    const fetchQuiz = async () => {
+        setDataDelete({});
+        setDataUpdate({});
+        setDataDetail({});
+        let res = await getAllQuizForAdmin();
 
+        if (res && res.EC === 0) {
+            setListQuiz(res.DT);
+        }
 
+        // console.log("check res", res);
+    }
+
+    const handleDelete = (quiz) => {
+        setDataDelete(quiz);
+        setIsShowModalDelete(true);
+    }
+
+    const handleUpdate = (quiz) => {
+        setDataUpdate(quiz);
+        setIsShowModalUpdate(true);
+    }
+
+    const handleDetail = (quiz) => {
+        setDataDetail(quiz);
+        setIsShowModalDetail(true);
+    }
 
     return (
-        <div className="overflow-x-auto rounded-xlxl w-full">
+        <>
             <Table
-                aria-label="User table"
+                aria-label="Example static collection table"
                 color="primary"
-                defaultSelectedKeys={["2"]}
+                defaultSelectedKeys={["1"]}
                 selectionMode="single"
+                className="mb-6"
             >
                 <TableHeader>
-                    <TableColumn>STT</TableColumn>
+                    <TableColumn>ID</TableColumn>
                     <TableColumn>NAME</TableColumn>
-                    <TableColumn>EMAIL</TableColumn>
-                    <TableColumn>ROLE</TableColumn>
-                    <TableColumn>STATUS</TableColumn>
+                    <TableColumn>DESCRIPTION</TableColumn>
+                    <TableColumn>TYPE</TableColumn>
+                    <TableColumn>ACTIONS</TableColumn>
                 </TableHeader>
                 <TableBody>
                     {
-                        listUser && listUser.length > 0 && listUser.map((item, index) => {
+                        listQuiz && listQuiz.map((item, index) => {
                             return (
-                                <TableRow key={index}>
+                                <TableRow key={`table-quiz-${index}`}>
                                     <TableCell>{index + 1}</TableCell>
-                                    <TableCell>{item.username}</TableCell>
-                                    <TableCell>{item.email}</TableCell>
-                                    <TableCell>{item.role}</TableCell>
+                                    <TableCell>{item.name}</TableCell>
+                                    <TableCell>{item.description}</TableCell>
+                                    <TableCell>{item.difficulty}</TableCell>
                                     <TableCell>
                                         <div className="relative flex items-center gap-4">
                                             <Tooltip color="success" content="Details">
                                                 <span
-                                                    onClick={() => props.handleClickButtonDetails(item)}
-                                                    className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                                                    className="text-lg text-default-400 cursor-pointer active:opacity-50"
+                                                    onClick={() => handleDetail(item)}
+                                                >
                                                     <EyeIcon />
                                                 </span>
                                             </Tooltip>
                                             <Tooltip color="warning" content="Edit user">
                                                 <span
-                                                    onClick={() => props.handleClickButtonUpdate(item)}
                                                     className="text-lg text-default-400 cursor-pointer active:opacity-50"
+                                                    onClick={() => handleUpdate(item)}
                                                 >
                                                     <EditIcon />
                                                 </span>
                                             </Tooltip>
                                             <Tooltip color="danger" content="Delete user">
                                                 <span
-                                                    onClick={() => props.handleClickButtonDelete(item)}
-                                                    className="text-lg text-danger cursor-pointer active:opacity-50">
+                                                    className="text-lg text-danger cursor-pointer active:opacity-50"
+                                                    onClick={() => handleDelete(item)}
+                                                >
+
                                                     <DeleteIcon />
                                                 </span>
                                             </Tooltip>
@@ -208,7 +228,7 @@ const TableUserPaginate = (props) => {
                         })
                     }
                     {
-                        listUser && listUser.length === 0 && (
+                        !listQuiz || listQuiz.length === 0 && (
                             <TableRow>
                                 <TableCell className="text-center" colSpan={5}>Not found data</TableCell>
                             </TableRow>
@@ -217,7 +237,26 @@ const TableUserPaginate = (props) => {
                 </TableBody>
             </Table>
 
-            <div className="flex items-center justify-center mt-4">
+            <ModalDeleteQuiz
+                show={isShowModalDelete}
+                setShow={setIsShowModalDelete}
+                dataDelete={dataDelete}
+                fetchQuiz={fetchQuiz}
+            />
+            <ModalUpdateQuiz
+                show={isShowModalUpdate}
+                setShow={setIsShowModalUpdate}
+                dataUpdate={dataUpdate}
+                fetchQuiz={fetchQuiz}
+                setDataUpdate={setDataUpdate}
+            />
+            <ModalDetailQuiz
+                show={isShowModalDetail}
+                setShow={setIsShowModalDetail}
+                dataDetail={dataDetail}
+            />
+
+            {/* <div className=" items-center justify-center mt-4">
                 <Pagination
                     disableCursorAnimation
                     showControls
@@ -228,9 +267,8 @@ const TableUserPaginate = (props) => {
                     page={props.currentPage}
                     onChange={handlePageChange}
                 />
-            </div>
-        </div>
-    );
-};
-
-export default TableUserPaginate;
+            </div> */}
+        </>
+    )
+}
+export default TableQuiz

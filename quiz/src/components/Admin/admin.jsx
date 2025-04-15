@@ -32,10 +32,10 @@ const Admin = () => {
         <SideBar collapsed={collapsed} />
       </div>
       <div className="w-full">
-        <div className="admin-toggle cursor-pointer p-2">
+        <div className="admin-toggle cursor-pointer p-4 border h-16">
           <FaBars onClick={() => setCollapsed(!collapsed)} />
         </div>
-        <div className="">
+        <div className="h-screen overflow-y-auto">
           <Outlet />
         </div>
       </div>

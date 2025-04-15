@@ -71,17 +71,10 @@ const SideBar = (props) => {
               dashboard
               <Link to="/admin" />
             </MenuItem>
-            <MenuItem
-              icon={
-                <FaCalendarAlt style={{ color: "FCB902", fontSize: "20px" }} />
-              }
-            >
-              components
-            </MenuItem>
           </Menu>
           <Menu iconShape="circle">
             <SubMenu
-              title="User Management"
+              title="Management"
               icon={<FaCopy style={{ color: "#FCB902", fontSize: "20px" }} />}
               suffix={
                 <span className="badge bg-warning text-dark ms-2">3</span>
@@ -89,10 +82,16 @@ const SideBar = (props) => {
             >
               <MenuItem icon={<FaUser />}>
                 <Link to="/admin/manage-user" />
-                User List Quiz!
+                User Management
               </MenuItem>
-              <MenuItem icon={<FaCogs />}>Settings</MenuItem>
-              <MenuItem icon={<FaChartBar />}>Reports</MenuItem>
+              <MenuItem icon={<FaCogs />}>
+                <Link to="/admin/manage-quizzes" />
+                Quiz Management
+              </MenuItem>
+              <MenuItem icon={<FaChartBar />}>
+                <Link to="/admin/reports" />
+                Question Management
+              </MenuItem>
             </SubMenu>
           </Menu>
         </SidebarContent>

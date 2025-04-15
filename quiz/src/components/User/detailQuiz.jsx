@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import { getDataQuiz } from "../../services/apiService";
+import { getDataQuiz, postSubmitQuiz } from "../../services/apiService";
 import _ from "lodash";
 import { Button, Card } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import Question from "./question";
+import ModalResult from "./modalResult";
 
 
 const DetailQuiz = () => {
@@ -17,6 +18,9 @@ const DetailQuiz = () => {
     const [dataQuiz, setDataQuiz] = useState([]);
     const [index, setIndex] = useState(0);
 
+    const [isShowModalResult, setIsShowModalResult] = useState(false);
+
+    const [dataModalResult, setDataModalResult] = useState({});
     useEffect(() => {
         fetchQuestion();
     }, [quizId])
@@ -57,11 +61,11 @@ const DetailQuiz = () => {
                 })
                 .value();
 
-            console.log(data);
+            // console.log(data);
             setDataQuiz(data);
         }
     }
-    console.log("Check data quiz", dataQuiz);
+    // console.log("Check data quiz", dataQuiz);
 
     const handlePrev = () => {
         if (index - 1 < 0) return;
@@ -76,13 +80,15 @@ const DetailQuiz = () => {
 
 
     }
+
+    // xu ly check box
     const handleCheckBox = (answerId, questionId) => {
         let dataQuizClone = _.cloneDeep(dataQuiz);
 
         let question = dataQuizClone.find(item => +item.questionId === +questionId);
         if (question && question.answers) {
             let b = question.answers.map(item => {
-                if(+item.id === +answerId) {
+                if (+item.id === +answerId) {
                     item.isSelected = !item.isSelected
                 }
                 return item
@@ -96,6 +102,49 @@ const DetailQuiz = () => {
         if (index > -1) {
             dataQuizClone[index] = question;
             setDataQuiz(dataQuizClone);
+        }
+    }
+
+    const handleFinishQuiz = async () => {
+        // console.log("dataQuiz", dataQuiz);
+        let payload = {
+            quizId: +quizId,
+            answers: []
+        }
+        let answers = [];
+        if (dataQuiz && dataQuiz.length > 0) {
+            dataQuiz.forEach(question => {
+
+                let questionId = question.questionId;
+                let userAnswerId = [];
+
+                //todo: get userAnswerId
+                question.answers.forEach(answer => {
+                    if (answer.isSelected === true) {
+                        userAnswerId.push(answer.id);
+                    }
+                })
+                answers.push({
+
+                    questionId: +questionId,
+                    userAnswerId: userAnswerId
+                })
+            })
+            payload.answers = answers;
+            // console.log("payload", payload);
+            //todo: call api
+            let res = await postSubmitQuiz(payload);
+            console.log("res", res);
+            if (res && res.EC === 0) {
+                setDataModalResult({
+                    countCorrect: res.DT.countCorrect,
+                    countTotal: res.DT.countTotal,
+                    quizData: res.DT.quizData
+                })
+                setIsShowModalResult(true);
+            } else {
+                alert("Something went wrong!");
+            }
         }
     }
 
@@ -163,7 +212,10 @@ const DetailQuiz = () => {
                     </div>
 
                     <div className="md:mt-0">
-                        <Button color="primary">
+                        <Button
+                            color="primary"
+                            onPress={() => handleFinishQuiz()}
+                        >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="h-5 w-5 mr-2"
@@ -200,6 +252,12 @@ const DetailQuiz = () => {
                     ))}
                 </div>
             </div>
+
+            <ModalResult
+                show={isShowModalResult}
+                setShow={setIsShowModalResult}
+                dataModalResult={dataModalResult}
+            />
         </div>
     )
 }
