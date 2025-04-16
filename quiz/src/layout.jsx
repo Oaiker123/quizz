@@ -10,7 +10,8 @@ import SignUp from "./components/Admin/Content/Auth/signUp.jsx";
 import QuizList from "./components/User/quizList.jsx";
 import DetailQuiz from "./components/User/detailQuiz.jsx";
 import NotFound from "./components/NotFound/notFound.jsx";
-import ManageQuiz from "./components/Admin/Content/Quiz/manageQuiz.jsx";
+import ManageQuiz from "./components/Admin/Content/Quizz/manageQuiz.jsx";
+import Question from "./components/Admin/Content/Question/question.jsx";
 
 const Layout = () => {
     return (
@@ -26,6 +27,7 @@ const Layout = () => {
                         <Route index element={<DashBoard />} />
                         <Route path="manage-user" element={<ManageUser />} />
                         <Route path="manage-quizzes" element={<ManageQuiz />} />
+                        <Route path="manage-question" element={<Question />} />
                     </Route>
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<SignUp />} />

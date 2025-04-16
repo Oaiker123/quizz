@@ -137,14 +137,6 @@ export const EditIcon = (props) => {
 const TableUserPaginate = (props) => {
     const { listUser, pageCount } = props;
 
-    // const handlePageClick = (event) => {
-    //     props.fetchListUserWithPaginate(+event.selected + 1);
-    //     props.setCurrentPage(+event.selected + 1);
-    //     console.log(
-    //         `User requested page number ${event.selected}`
-    //     );
-    // };
-
     const handlePageChange = (page) => {
         props.fetchListUserWithPaginate(page);
         props.setCurrentPage(page);
@@ -217,7 +209,7 @@ const TableUserPaginate = (props) => {
                 </TableBody>
             </Table>
 
-            <div className="flex items-center justify-center mt-4">
+            <div className="flex items-center justify-center mt-4 overflow-hidden">
                 <Pagination
                     disableCursorAnimation
                     showControls

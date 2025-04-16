@@ -13,9 +13,10 @@ import { FaCamera } from "react-icons/fa";
 import { useState } from "react";
 import { Toaster, toast } from "sonner";
 import { postCreateUser } from "../../../services/apiService";
+import { FcMultipleCameras } from "react-icons/fc";
 
 const ModalCreateUser = (props) => {
-  const { show, setShow} = props;
+  const { show, setShow } = props;
 
   const handleClose = () => {
     // Remove focus before hiding modal
@@ -140,7 +141,9 @@ const ModalCreateUser = (props) => {
                     htmlFor="labelUpload"
                     className="cursor-pointer flex items-center gap-2 text-blue-600"
                   >
-                    <FaCamera />
+                    <FcMultipleCameras
+                      size={20}
+                    />
                     Upload File Image
                   </label>
                   <input

@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
 import _ from "lodash";
 import { putUpdateQuizForAdmin } from "../../../../services/apiService";
+import { FcMultipleCameras } from "react-icons/fc";
 
 const ModalUpdateQuiz = (props) => {
     const { show, setShow, dataUpdate, setDataUpdate } = props;
@@ -101,23 +102,27 @@ const ModalUpdateQuiz = (props) => {
                     <>
                         <ModalHeader>Update the quiz</ModalHeader>
                         <ModalBody>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <Input
                                     label="Name"
                                     type="text"
-                                    disabled
                                     value={name}
                                     onChange={(event) => setName(event.target.value)}
+                                    className="w-full"
+                                    placeholder="Enter your name"
                                 />
+
                                 <Textarea
                                     value={description}
                                     onChange={(event) => setDescription(event.target.value)}
-                                    className="max-w"
-                                    label="📝 description"
+                                    label="Description"
                                     placeholder="Enter your description"
+                                    className="w-full"
+                                    minRows={4}
                                 />
+
                                 <Select
-                                    className="max-w-xs"
+                                    className="w-full"
                                     label="Difficulty"
                                     selectedKeys={type ? [type] : []}
                                     onSelectionChange={(keys) => {
@@ -125,18 +130,20 @@ const ModalUpdateQuiz = (props) => {
                                         setType(selected);
                                     }}
                                 >
-                                    <SelectItem key="EASY">EASY</SelectItem>
-                                    <SelectItem key="MEDIUM">MEDIUM</SelectItem>
-                                    <SelectItem key="HARD">HARD</SelectItem>
+                                    <SelectItem key="EASY">Easy</SelectItem>
+                                    <SelectItem key="MEDIUM">Medium</SelectItem>
+                                    <SelectItem key="HARD">Hard</SelectItem>
                                 </Select>
 
-                                <div>
+                                <div className="w-full flex flex-col items-center justify-center gap-2">
                                     <label
                                         htmlFor="labelUpload"
-                                        className="cursor-pointer flex items-center gap-2 text-blue-600"
+                                        className="cursor-pointer inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium transition"
                                     >
-                                        <FaCamera />
-                                        Upload File Image
+                                        <FcMultipleCameras 
+                                            size={20}
+                                        />
+                                        Upload Image
                                     </label>
                                     <input
                                         type="file"
@@ -144,21 +151,23 @@ const ModalUpdateQuiz = (props) => {
                                         hidden
                                         onChange={(event) => handleUploadImage(event)}
                                     />
-                                    <div></div>
                                 </div>
-                                <div className="flex items-center justify-center border rounded-md h-[150px]">
+
+
+                                <div className="md:col-span-2 flex items-center justify-center border border-dashed rounded-xl h-[180px] bg-gray-50">
                                     {previewImage ? (
                                         <img
                                             src={previewImage}
                                             alt="Preview"
-                                            className="max-h-[140px]"
+                                            className="max-h-[160px] object-contain"
                                         />
                                     ) : (
-                                        <span className="text-gray-400">Preview Image</span>
+                                        <span className="text-gray-400 text-sm">No image selected</span>
                                     )}
                                 </div>
                             </div>
                         </ModalBody>
+
                         <ModalFooter>
                             <Button variant="light" color="danger" onPress={onClose}>
                                 Close

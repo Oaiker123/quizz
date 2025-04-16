@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
 import { putUpdateUser } from "../../../services/apiService";
 import _ from "lodash";
+import { FcMultipleCameras } from "react-icons/fc";
 
 const ModalUpdateUser = (props) => {
     const { show, setShow, dataUpdate } = props;
@@ -154,7 +155,7 @@ const ModalUpdateUser = (props) => {
                                         htmlFor="labelUpload"
                                         className="cursor-pointer flex items-center gap-2 text-blue-600"
                                     >
-                                        <FaCamera />
+                                        <FcMultipleCameras size={20} />
                                         Upload File Image
                                     </label>
                                     <input

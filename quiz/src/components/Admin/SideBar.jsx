@@ -89,7 +89,7 @@ const SideBar = (props) => {
                 Quiz Management
               </MenuItem>
               <MenuItem icon={<FaChartBar />}>
-                <Link to="/admin/reports" />
+                <Link to="/admin/manage-question" />
                 Question Management
               </MenuItem>
             </SubMenu>

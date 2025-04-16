@@ -1,10 +1,13 @@
-import { Table, Tooltip, TableHeader, TableColumn, TableBody, TableRow, TableCell, Pagination } from "@heroui/react";
-import { useEffect, useState } from "react";
-import { getAllQuizForAdmin } from "../../../../services/apiService";
-import ModalDeleteQuiz from "./modalDeleteQuiz";
-import ModalUpdateQuiz from "./modalUpdateQuiz";
-import ModalDetailQuiz from "./modalDetailQuiz";
-
+import { 
+    Table, 
+    Tooltip, 
+    TableHeader, 
+    TableColumn, 
+    TableBody, 
+    TableRow, 
+    TableCell, 
+    Pagination 
+} from "@heroui/react";
 
 export const EyeIcon = (props) => {
     return (
@@ -127,47 +130,9 @@ export const EditIcon = (props) => {
     );
 };
 
-const TableQuiz = () => {
+const ManageTableQuiz = (props) => {
 
-    const [listQuiz, setListQuiz] = useState([]);
-    const [isShowModalUpdate, setIsShowModalUpdate] = useState(false);
-    const [isShowModalDelete, setIsShowModalDelete] = useState(false);
-    const [isShowModalDetail, setIsShowModalDetail] = useState(false);
-    const [dataUpdate, setDataUpdate] = useState({});
-    const [dataDelete, setDataDelete] = useState({});
-    const [dataDetail, setDataDetail] = useState({});
-
-    useEffect(() => {
-        fetchQuiz();
-    }, []);
-
-    const fetchQuiz = async () => {
-        setDataDelete({});
-        setDataUpdate({});
-        setDataDetail({});
-        let res = await getAllQuizForAdmin();
-
-        if (res && res.EC === 0) {
-            setListQuiz(res.DT);
-        }
-
-        // console.log("check res", res);
-    }
-
-    const handleDelete = (quiz) => {
-        setDataDelete(quiz);
-        setIsShowModalDelete(true);
-    }
-
-    const handleUpdate = (quiz) => {
-        setDataUpdate(quiz);
-        setIsShowModalUpdate(true);
-    }
-
-    const handleDetail = (quiz) => {
-        setDataDetail(quiz);
-        setIsShowModalDetail(true);
-    }
+    const { listQuiz } = props;
 
     return (
         <>
@@ -199,7 +164,7 @@ const TableQuiz = () => {
                                             <Tooltip color="success" content="Details">
                                                 <span
                                                     className="text-lg text-default-400 cursor-pointer active:opacity-50"
-                                                    onClick={() => handleDetail(item)}
+                                                    onClick={() => props.handleDetail(item)}
                                                 >
                                                     <EyeIcon />
                                                 </span>
@@ -207,7 +172,7 @@ const TableQuiz = () => {
                                             <Tooltip color="warning" content="Edit user">
                                                 <span
                                                     className="text-lg text-default-400 cursor-pointer active:opacity-50"
-                                                    onClick={() => handleUpdate(item)}
+                                                    onClick={() => props.handleUpdate(item)}
                                                 >
                                                     <EditIcon />
                                                 </span>
@@ -215,7 +180,7 @@ const TableQuiz = () => {
                                             <Tooltip color="danger" content="Delete user">
                                                 <span
                                                     className="text-lg text-danger cursor-pointer active:opacity-50"
-                                                    onClick={() => handleDelete(item)}
+                                                    onClick={() => props.handleDelete(item)}
                                                 >
 
                                                     <DeleteIcon />
@@ -236,39 +201,8 @@ const TableQuiz = () => {
                     }
                 </TableBody>
             </Table>
-
-            <ModalDeleteQuiz
-                show={isShowModalDelete}
-                setShow={setIsShowModalDelete}
-                dataDelete={dataDelete}
-                fetchQuiz={fetchQuiz}
-            />
-            <ModalUpdateQuiz
-                show={isShowModalUpdate}
-                setShow={setIsShowModalUpdate}
-                dataUpdate={dataUpdate}
-                fetchQuiz={fetchQuiz}
-                setDataUpdate={setDataUpdate}
-            />
-            <ModalDetailQuiz
-                show={isShowModalDetail}
-                setShow={setIsShowModalDetail}
-                dataDetail={dataDetail}
-            />
-
-            {/* <div className=" items-center justify-center mt-4">
-                <Pagination
-                    disableCursorAnimation
-                    showControls
-                    className="gap-2"
-                    radius="full"
-                    color="success"
-                    total={pageCount}
-                    page={props.currentPage}
-                    onChange={handlePageChange}
-                />
-            </div> */}
         </>
     )
 }
-export default TableQuiz
+
+export default ManageTableQuiz

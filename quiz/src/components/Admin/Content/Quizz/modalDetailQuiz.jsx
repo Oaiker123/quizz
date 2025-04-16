@@ -1,4 +1,11 @@
-import { Modal, ModalBody, ModalContent, ModalHeader, ModalFooter, Button } from "@heroui/react";
+import { 
+    Modal, 
+    ModalBody, 
+    ModalContent, 
+    ModalHeader, 
+    ModalFooter, 
+    Button 
+} from "@heroui/react";
 
 const ModalDetailQuiz = ({ show, setShow, dataDetail }) => {
     return (

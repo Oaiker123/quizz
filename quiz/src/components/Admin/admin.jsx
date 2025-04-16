@@ -35,7 +35,7 @@ const Admin = () => {
         <div className="admin-toggle cursor-pointer p-4 border h-16">
           <FaBars onClick={() => setCollapsed(!collapsed)} />
         </div>
-        <div className="h-screen overflow-y-auto">
+        <div style={{ height: "calc(100vh - 50px)" }} className="overflow-y-auto">
           <Outlet />
         </div>
       </div>
