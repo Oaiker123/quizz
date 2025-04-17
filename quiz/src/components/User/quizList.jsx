@@ -24,14 +24,14 @@ const QuizList = () => {
                 {arrQuiz && arrQuiz.length > 0 &&
                     arrQuiz.map((quiz, index) => {
                         return (
-                            <Card key={`${index}-quiz`} className="w-full h-[420px] shadow-lg rounded-xl">
+                            <Card key={`${index}-quiz`} className="w-full h-[450px] shadow-lg rounded-xl">
                                 <CardBody className="overflow-visible p-0">
                                     <img
                                         src={`data:image/png;base64,${quiz.image}`}
                                         alt="Quiz"
                                         className="w-full h-[200px] object-cover rounded-t-lg"
                                     />
-                                    <div className="p-6 min-h-[140px] flex flex-col justify-between">
+                                    <div className="p-6 min-h-[150px] flex flex-col justify-between">
                                         <h4 className="font-bold text-large">Quiz {index + 1}</h4>
                                         <p className="text-default-500 mt-2">
                                             {quiz.description}

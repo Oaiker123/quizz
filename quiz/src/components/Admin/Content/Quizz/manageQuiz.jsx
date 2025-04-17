@@ -5,6 +5,10 @@ import ManageAddQuiz from "./manageAddQuiz";
 import ModalDeleteQuiz from "./modalDeleteQuiz";
 import ModalUpdateQuiz from "./modalUpdateQuiz";
 import ModalDetailQuiz from "./modalDetailQuiz";
+import { Accordion, AccordionItem } from "@heroui/react";
+import { FcBusinessContact, FcFaq, FcInspection } from "react-icons/fc";
+import QuizQA from "./quizQA";
+import AssignQuiz from "./assignQuiz";
 
 
 
@@ -47,40 +51,97 @@ const ManageQuiz = () => {
     }
 
     return (
-        <div class="mx-auto px-4 w-full max-w-screen-xl mt-4">
+        <div className="mx-auto px-4 w-full max-w-screen-xl mt-4">
             <div className="max-w-3xl mx-auto mt-4 bg-white rounded-2xl shadow-lg border border-gray-200">
-                <ManageAddQuiz
-                    fetchQuiz={fetchQuiz}
-                />
+                <Accordion defaultExpandedKeys={["1"]}>
+                    <AccordionItem
+                        key="1"
+                        aria-label="Create New Quiz"
+                        title={
+                            <div className="flex items-center gap-2 justify-center">
+                                <FcFaq size={20} />
+                                <span id="accordion-title-1">Create New Quiz</span>
+                            </div>
+                        }
+                        aria-labelledby="accordion-title-1"
+                    >
+
+                        <ManageAddQuiz
+                            fetchQuiz={fetchQuiz}
+                        />
+
+                        <div className="flex justify-between items-center p-4 mb-6">
+                            <ManageTableQuiz
+                                listQuiz={listQuiz}
+                                handleDelete={handleDelete}
+                                handleUpdate={handleUpdate}
+                                handleDetail={handleDetail}
+                            />
+
+                            <ModalDeleteQuiz
+                                show={isShowModalDelete}
+                                setShow={setIsShowModalDelete}
+                                dataDelete={dataDelete}
+                                fetchQuiz={fetchQuiz}
+                            />
+
+                            <ModalUpdateQuiz
+                                show={isShowModalUpdate}
+                                setShow={setIsShowModalUpdate}
+                                dataUpdate={dataUpdate}
+                                setDataUpdate={setDataUpdate}
+                                fetchQuiz={fetchQuiz}
+                            />
+
+                            <ModalDetailQuiz
+                                show={isShowModalDetail}
+                                setShow={setIsShowModalDetail}
+                                dataDetail={dataDetail}
+                            />
+
+                        </div>
+                    </AccordionItem>
+                </Accordion>
+
             </div>
-            <div className="flex justify-between items-center p-4 mb-6">
-                <ManageTableQuiz
-                    listQuiz={listQuiz}
-                    handleDelete={handleDelete}
-                    handleUpdate={handleUpdate}
-                    handleDetail={handleDetail}
-                />
 
-                <ModalDeleteQuiz
-                    show={isShowModalDelete}
-                    setShow={setIsShowModalDelete}
-                    dataDelete={dataDelete}
-                    fetchQuiz={fetchQuiz}
-                />
+            <div className="max-w-3xl mx-auto mt-4 mb-4 bg-white rounded-2xl shadow-lg border border-gray-200">
+                <Accordion>
+                    <AccordionItem
+                        key="2"
+                        aria-label="Assign To Users"
+                        title={
+                            <div className="flex items-center gap-2 justify-center">
+                                <FcBusinessContact size={20} />
+                                <span id="accordion-title-1">Assign To Users</span>
+                            </div>
+                        }
+                        aria-labelledby="accordion-title-1"
+                    >
 
-                <ModalUpdateQuiz
-                    show={isShowModalUpdate}
-                    setShow={setIsShowModalUpdate}
-                    dataUpdate={dataUpdate}
-                    setDataUpdate={setDataUpdate}
-                    fetchQuiz={fetchQuiz}
-                />
+                        <AssignQuiz />
+                    </AccordionItem>
+                </Accordion>
 
-                <ModalDetailQuiz
-                    show={isShowModalDetail}
-                    setShow={setIsShowModalDetail}
-                    dataDetail={dataDetail}
-                />
+            </div>
+
+            <div className="max-w-3xl mx-auto mt-4 bg-white rounded-2xl shadow-lg border border-gray-200">
+                <Accordion>
+                    <AccordionItem
+                        key="3"
+                        aria-label="Update Q/A Quiz"
+                        title={
+                            <div className="flex items-center gap-2 justify-center">
+                                <FcInspection size={20} />
+                                <span id="accordion-title-1">Update Q/A Quiz</span>
+                            </div>
+                        }
+                        aria-labelledby="accordion-title-1"
+                    >
+
+                        <QuizQA />
+                    </AccordionItem>
+                </Accordion>
 
             </div>
         </div>

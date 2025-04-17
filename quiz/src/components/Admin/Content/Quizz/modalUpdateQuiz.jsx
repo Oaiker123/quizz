@@ -56,7 +56,7 @@ const ModalUpdateQuiz = (props) => {
         }
     }, [props.dataUpdate]);
 
-    const handleUploadImage = (event) => {
+    const handleUploadImages = (event) => {
         if (event.target && event.target.files && event.target.files[0]) {
             setPreviewImage(URL.createObjectURL(event.target.files[0]));
             setImage(event.target.files[0])
@@ -166,11 +166,11 @@ const ModalUpdateQuiz = (props) => {
                                 />
 
                             </div>
-                            
+
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="flex flex-col items-center justify-center">
                                     <label
-                                        htmlFor="labelUpload"
+                                        htmlFor="labelUploads"
                                         className="cursor-pointer flex items-center gap-2 text-blue-600"
                                     >
                                         <FcMultipleCameras
@@ -180,9 +180,9 @@ const ModalUpdateQuiz = (props) => {
                                     </label>
                                     <input
                                         type="file"
-                                        id="labelUpload"
+                                        id="labelUploads"
                                         hidden
-                                        onChange={(event) => handleUploadImage(event)}
+                                        onChange={(event) => handleUploadImages(event)}
                                     />
                                 </div>
 

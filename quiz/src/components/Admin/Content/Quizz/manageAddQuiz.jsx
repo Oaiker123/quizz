@@ -92,110 +92,95 @@ const ManageAddQuiz = ({ fetchQuiz }) => {
 
     return (
         <>
-            <Accordion>
-                <AccordionItem
-                    key="1"
-                    aria-label="Accordion 1"
-                    title={
-                        <div className="flex items-center gap-2 justify-center">
-                            <FcFaq
+            <form className="space-y-6">
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <Input
+                            value={name}
+                            onChange={(event) => setName(event.target.value)}
+                            label="Quiz Name"
+                            variant="bordered"
+                            type="text"
+
+                        />
+                    </div>
+
+                    <div>
+                        <Select
+                            label="Difficulty"
+                            value={type}
+                            variant="bordered"
+                            onChange={(event) => setType(event.target.value)}
+                        >
+                            <SelectItem key="EASY" value="EASY">
+                                EASY
+                            </SelectItem>
+                            <SelectItem key="MEDIUM" value="MEDIUM">
+                                MEDIUM
+                            </SelectItem>
+                            <SelectItem key="HARD" value="HARD">
+                                HARD
+                            </SelectItem>
+                        </Select>
+                    </div>
+
+                </div>
+
+                <div>
+                    <Textarea
+                        value={description}
+                        onChange={(event) => setDescription(event.target.value)}
+                        className="max-w"
+                        label="Description"
+                        variant="bordered"
+                        placeholder="Enter your description"
+                    />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex flex-col items-center justify-center">
+                        <label
+                            htmlFor="labelUpload"
+                            className="cursor-pointer flex items-center gap-2 text-blue-600"
+                        >
+                            <FcMultipleCameras
                                 size={20}
                             />
-                            <span>Create New Quiz</span>
-                        </div>
-                    }
-                >
-                    <form className="space-y-6">
+                            Upload File Image
+                        </label>
+                        <input
+                            type="file"
+                            id="labelUpload"
+                            hidden
+                            onChange={(event) => handleChangeFile(event)}
+                        />
+                    </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <Input
-                                    value={name}
-                                    onChange={(event) => setName(event.target.value)}
-                                    label="Quiz Name"
-                                    variant="bordered"
-                                    type="text"
-
-                                />
-                            </div>
-
-                            <div>
-                                <Select
-                                    label="Difficulty"
-                                    value={type}
-                                    variant="bordered"
-                                    onChange={(event) => setType(event.target.value)}
-                                >
-                                    <SelectItem key="EASY" value="EASY">
-                                        EASY
-                                    </SelectItem>
-                                    <SelectItem key="MEDIUM" value="MEDIUM">
-                                        MEDIUM
-                                    </SelectItem>
-                                    <SelectItem key="HARD" value="HARD">
-                                        HARD
-                                    </SelectItem>
-                                </Select>
-                            </div>
-
-                        </div>
-
-                        <div>
-                            <Textarea
-                                value={description}
-                                onChange={(event) => setDescription(event.target.value)}
-                                className="max-w"
-                                label="Description"
-                                variant="bordered"
-                                placeholder="Enter your description"
+                    <div className="flex items-center justify-center border rounded-md h-[150px]">
+                        {imagePreview ? (
+                            <img
+                                src={imagePreview}
+                                alt="Preview"
+                                className="max-h-[150px]"
                             />
-                        </div>
+                        ) : (
+                            <span className="text-gray-400">Preview Image</span>
+                        )}
+                    </div>
+                </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="flex flex-col items-center justify-center">
-                                <label
-                                    htmlFor="labelUpload"
-                                    className="cursor-pointer flex items-center gap-2 text-blue-600"
-                                >
-                                    <FcMultipleCameras
-                                        size={20}
-                                    />
-                                    Upload File Image
-                                </label>
-                                <input
-                                    type="file"
-                                    id="labelUpload"
-                                    hidden
-                                    onChange={(event) => handleChangeFile(event)}
-                                />
-                            </div>
-
-                            <div className="flex items-center justify-center border rounded-md h-[150px]">
-                                {imagePreview ? (
-                                    <img
-                                        src={imagePreview}
-                                        alt="Preview"
-                                        className="max-h-[150px]"
-                                    />
-                                ) : (
-                                    <span className="text-gray-400">Preview Image</span>
-                                )}
-                            </div>
-                        </div>
-
-                        <div className="flex justify-end pt-6">
-                            <Button
-                                className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
-                                radius="full"
-                                onPress={() => handleSubmitQuiz()}
-                            >
-                                <FcCheckmark />
-                                Submit Quiz
-                            </Button>
-                        </div>
-                    </form>
-                </AccordionItem>
-            </Accordion>
+                <div className="flex justify-end pt-6">
+                    <Button
+                        className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
+                        radius="full"
+                        onPress={() => handleSubmitQuiz()}
+                    >
+                        <FcCheckmark />
+                        Submit Quiz
+                    </Button>
+                </div>
+            </form>
         </>
     )
 }
