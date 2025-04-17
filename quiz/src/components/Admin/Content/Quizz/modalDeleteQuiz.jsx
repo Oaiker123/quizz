@@ -1,4 +1,5 @@
-import { toast } from "sonner";
+// import { toast } from "sonner";
+import { toast } from 'react-toastify';
 import { deleteQuizForAdmin } from "../../../../services/apiService";
 import {
     Modal,
@@ -17,13 +18,23 @@ const ModalDeleteQuiz = (props) => {
     const handleSubmitDeleteQuiz = async () => {
         let data = await deleteQuizForAdmin(dataDelete.id);
         if (data && data.EC === 0) {
-            toast.success(data.EM);
+            toast.success(
+                <div>
+                    <strong>Delete Quiz Success</strong>
+                    <div>{data.EM}</div>
+                </div>
+            );
             setShow(false);
             await props.fetchQuiz();
         }
 
         if (data && data.EC !== 0) {
-            toast.error(data.EM);
+            toast.error(
+                <div>
+                    <strong>Delete Quiz Failed</strong>
+                    <div>{data.EM}</div>
+                </div>
+            );
         }
     }
 

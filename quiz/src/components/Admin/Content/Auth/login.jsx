@@ -3,9 +3,10 @@ import { Input, Button, Link, Card, Spinner } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
 import { postLogin } from "../../../../services/apiService";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import { useDispatch } from "react-redux";
 import { doLogin } from "../../../../redux/action/userAction";
+import { toast } from 'react-toastify';
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -28,12 +29,22 @@ const Login = () => {
         //validate email and password
         const isValidEmail = validateEmail(email);
         if (!isValidEmail) {
-            toast.error("Invalid Email");
+            toast.error(
+                <div>
+                    <strong>Invalid Email</strong>
+                    <div>Please enter a valid email address.</div>
+                </div>
+            )
             return;
         }
 
         if (!password) {
-            toast.error("Invalid Password");
+            toast.error(
+                <div>
+                    <strong>Invalid Password</strong>
+                    <div>Please enter a valid password.</div>
+                </div>
+            );
             return;
         }
 
@@ -43,13 +54,23 @@ const Login = () => {
         let data = await postLogin(email, password);
         if (data && data.EC === 0) {
             dispatch(doLogin(data.DT));
-            toast.success(data.EM);
+            toast.success(
+                <div>
+                    <strong>Success</strong>
+                    <div>{data.EM}</div>
+                </div>
+            );
             setIsLoading(false);
             navigate("/")
         }
 
         if (data && data.EC !== 0) {
-            toast.error(data.EM);
+            toast.error(
+                <div>
+                    <strong>Error</strong>
+                    <div>{data.EM}</div>
+                </div>
+            );
         }
     }
     return (

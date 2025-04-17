@@ -47,14 +47,14 @@ const ManageQuiz = () => {
     }
 
     return (
-        <>
+        <div class="mx-auto px-4 w-full max-w-screen-xl mt-4">
             <div className="max-w-3xl mx-auto mt-4 bg-white rounded-2xl shadow-lg border border-gray-200">
-                <ManageAddQuiz 
+                <ManageAddQuiz
                     fetchQuiz={fetchQuiz}
                 />
             </div>
             <div className="flex justify-between items-center p-4 mb-6">
-                <ManageTableQuiz 
+                <ManageTableQuiz
                     listQuiz={listQuiz}
                     handleDelete={handleDelete}
                     handleUpdate={handleUpdate}
@@ -81,9 +81,9 @@ const ManageQuiz = () => {
                     setShow={setIsShowModalDetail}
                     dataDetail={dataDetail}
                 />
-                
+
             </div>
-        </>
+        </div>
     )
 }
 

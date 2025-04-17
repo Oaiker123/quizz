@@ -137,13 +137,12 @@ const ManageTableQuiz = (props) => {
     return (
         <>
             <Table
-                aria-label="Example static collection table"
                 color="primary"
-                defaultSelectedKeys={["1"]}
                 selectionMode="single"
-                className="mb-6"
             >
-                <TableHeader>
+                <TableHeader
+                    className="!border-b-0"
+                >
                     <TableColumn>ID</TableColumn>
                     <TableColumn>NAME</TableColumn>
                     <TableColumn>DESCRIPTION</TableColumn>
@@ -169,7 +168,7 @@ const ManageTableQuiz = (props) => {
                                                     <EyeIcon />
                                                 </span>
                                             </Tooltip>
-                                            <Tooltip color="warning" content="Edit user">
+                                            <Tooltip color="warning" content="Edit Quizz">
                                                 <span
                                                     className="text-lg text-default-400 cursor-pointer active:opacity-50"
                                                     onClick={() => props.handleUpdate(item)}
@@ -177,7 +176,7 @@ const ManageTableQuiz = (props) => {
                                                     <EditIcon />
                                                 </span>
                                             </Tooltip>
-                                            <Tooltip color="danger" content="Delete user">
+                                            <Tooltip color="danger" content="Delete Quizz">
                                                 <span
                                                     className="text-lg text-danger cursor-pointer active:opacity-50"
                                                     onClick={() => props.handleDelete(item)}

@@ -11,7 +11,8 @@ import {
 } from "@heroui/react";
 import { FaCamera } from "react-icons/fa";
 import { useState } from "react";
-import { Toaster, toast } from "sonner";
+// import { Toaster, toast } from "sonner";
+import { toast } from 'react-toastify';
 import { postCreateUser } from "../../../services/apiService";
 import { FcMultipleCameras } from "react-icons/fc";
 
@@ -56,28 +57,45 @@ const ModalCreateUser = (props) => {
   const handleSaveUser = async () => {
     const isValidEmail = validateEmail(email);
     if (!isValidEmail) {
-      toast.error("Invalid Email", {
-        description: "Please enter a valid email address.",
-        duration: 3000,
-        position: "top-right",
-      });
+      toast.error(
+        <div>
+          <strong>Invalid Email</strong>
+          <div>Please enter a valid email address.</div>
+        </div>
+      );
       return;
     }
 
     if (!password) {
-      toast.error("Invalid Password", {
-        description: "Please enter a valid password.",
-        duration: 3000,
-        position: "top-right",
-      });
+      toast.error(
+        <div>
+          <strong>Invalid Password</strong>
+          <div>Please enter a valid password.</div>
+        </div>
+      );
+      return;
+    }
+
+    if (!username) {
+      toast.error(
+        <div>
+          <strong>Invalid Username</strong>
+          <div>Please enter a valid username.</div>
+        </div>
+      );
       return;
     }
 
     const data = await postCreateUser(email, password, username, role, image);
-    console.log("Component res: ", data);
+    // console.log("Component res: ", data);
 
     if (data && data.EC === 0) {
-      toast.success(data.EM);
+      toast.success(
+        <div>
+          <strong>Create User Success</strong>
+          <div>{data.EM}</div>
+        </div>
+      );
       handleClose();
       // await fetchListUser();
       props.setCurrentPage(1);
@@ -85,7 +103,12 @@ const ModalCreateUser = (props) => {
     }
 
     if (data && data.EC !== 0) {
-      toast.error(data.EM);
+      toast.error(
+        <div>
+          <strong>Create User Fail</strong>
+          <div>{data.EM}</div>
+        </div>
+      );
     }
   };
 
@@ -107,26 +130,29 @@ const ModalCreateUser = (props) => {
                 <Input
                   label="Email"
                   type="email"
+                  variant="bordered"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <Input
                   label="Password"
                   type="password"
+                  variant="bordered"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 <Input
                   label="Username"
                   value={username}
+                  variant="bordered"
                   onChange={(e) => setUsername(e.target.value)}
                 />
                 <div>
                   <Select
-                    className="max-w-xs"
                     label="Select Role"
                     onChange={(event) => setRole(event.target.value)}
                     value={role}
+                    variant="bordered"
                   >
                     <SelectItem key="USER" value="USER">
                       USER
@@ -136,15 +162,13 @@ const ModalCreateUser = (props) => {
                     </SelectItem>
                   </Select>
                 </div>
-                <div>
+                <div className="flex justify-center">
                   <label
                     htmlFor="labelUpload"
                     className="cursor-pointer flex items-center gap-2 text-blue-600"
                   >
-                    <FcMultipleCameras
-                      size={20}
-                    />
-                    Upload File Image
+                    <FcMultipleCameras size={20} />
+                    <span>Upload File Image</span>
                   </label>
                   <input
                     type="file"
@@ -152,8 +176,8 @@ const ModalCreateUser = (props) => {
                     hidden
                     onChange={handleUploadImage}
                   />
-                  <div></div>
                 </div>
+
                 <div className="flex items-center justify-center border rounded-md h-[150px]">
                   {previewImage ? (
                     <img

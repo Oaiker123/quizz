@@ -146,11 +146,10 @@ const TableUserPaginate = (props) => {
 
 
     return (
-        <div className="overflow-x-auto rounded-xlxl w-full">
+        <div className="overflow-x-auto w-full">
             <Table
                 aria-label="User table"
                 color="primary"
-                defaultSelectedKeys={["2"]}
                 selectionMode="single"
             >
                 <TableHeader>

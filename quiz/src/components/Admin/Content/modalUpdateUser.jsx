@@ -11,7 +11,8 @@ import {
 } from "@heroui/react";
 import { FaCamera } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { Toaster, toast } from "sonner";
+// import { Toaster, toast } from "sonner";
+import { toast } from 'react-toastify';
 import { putUpdateUser } from "../../../services/apiService";
 import _ from "lodash";
 import { FcMultipleCameras } from "react-icons/fc";
@@ -76,19 +77,35 @@ const ModalUpdateUser = (props) => {
     const handleSaveUser = async () => {
         const isValidEmail = validateEmail(email);
         if (!isValidEmail) {
-            toast.error("Invalid Email", {
-                description: "Please enter a valid email address.",
-                duration: 3000,
-                position: "top-right",
-            });
+            toast.error(
+                <div>
+                    <strong>Invalid Email</strong>
+                    <div>Please enter a valid email address.</div>
+                </div>
+            );
             return;
         }
 
+        if (!username) {
+            toast.error(
+                <div>
+                    <strong>Invalid Username</strong>
+                    <div>Please enter a valid username.</div>
+                </div>
+            );
+            return;    
+        }
+
         const data = await putUpdateUser(dataUpdate.id, username, role, image);
-        console.log("Component res: ", data);
+        // console.log("Component res: ", data);
 
         if (data && data.EC === 0) {
-            toast.success(data.EM);
+            toast.success(
+                <div>
+                    <strong>Update User Success</strong>
+                    <div>{data.EM}</div>
+                </div>
+            );
             handleClose();
             // await fetchListUser();
             // props.setCurrentPage(1);
@@ -96,7 +113,12 @@ const ModalUpdateUser = (props) => {
         }
 
         if (data && data.EC !== 0) {
-            toast.error(data.EM);
+            toast.error(
+                <div>
+                    <strong>Update User Fail</strong>
+                    <div>{data.EM}</div>
+                </div>
+            );
         }
     };
 
@@ -122,6 +144,7 @@ const ModalUpdateUser = (props) => {
                                     type="email"
                                     disabled
                                     value={email}
+                                    variant="bordered"
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
                                 <Input
@@ -129,34 +152,36 @@ const ModalUpdateUser = (props) => {
                                     type="password"
                                     disabled
                                     value={password}
+                                    variant="bordered"
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                                 <Input
                                     label="Username"
                                     value={username}
+                                    variant="bordered"
                                     onChange={(e) => setUsername(e.target.value)}
                                 />
                                 <div>
                                     <Select
-                                        className="max-w-xs"
                                         label="Select Role"
                                         selectedKeys={role ? [role] : []}
                                         onSelectionChange={(keys) => {
                                             const selected = Array.from(keys)[0];
                                             setRole(selected);
                                         }}
+                                        variant="bordered"
                                     >
                                         <SelectItem key="USER">USER</SelectItem>
                                         <SelectItem key="ADMIN">ADMIN</SelectItem>
                                     </Select>
                                 </div>
-                                <div>
+                                <div className="flex justify-center">
                                     <label
                                         htmlFor="labelUpload"
                                         className="cursor-pointer flex items-center gap-2 text-blue-600"
                                     >
                                         <FcMultipleCameras size={20} />
-                                        Upload File Image
+                                        <span>Upload File Image</span>
                                     </label>
                                     <input
                                         type="file"
@@ -164,7 +189,6 @@ const ModalUpdateUser = (props) => {
                                         hidden
                                         onChange={handleUploadImage}
                                     />
-                                    <div></div>
                                 </div>
                                 <div className="flex items-center justify-center border rounded-md h-[150px]">
                                     {previewImage ? (

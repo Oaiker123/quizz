@@ -11,7 +11,8 @@ import {
 import { FaCamera } from "react-icons/fa";
 import { useState } from "react";
 import { postCreateNewQuiz } from "../../../../services/apiService";
-import { toast } from "sonner";
+// import { toast } from "sonner";
+import { toast } from 'react-toastify';
 import { FcCheckmark, FcFaq, FcInspection, FcBriefcase, FcMms, FcMultipleCameras } from "react-icons/fc";
 
 
@@ -34,19 +35,44 @@ const ManageAddQuiz = ({ fetchQuiz }) => {
 
         //validate
         if (!name) {
-            toast.error("Invalid Name");
+            toast.error(
+                <div>
+                    <strong>Invalid Name</strong>
+                    <div>Please enter a valid name.</div>
+                </div>
+            );
             return;
         }
 
         if (!description) {
-            toast.error("Invalid Description");
+            toast.error(
+                <div>
+                    <strong>Invalid Description</strong>
+                    <div>Please enter a valid description.</div>
+                </div>
+            );
+            return;
+        }
+
+        if (!image) {
+            toast.error(
+                <div>
+                    <strong>Invalid Image</strong>
+                    <div>Please enter a valid image.</div>
+                </div>
+            );
             return;
         }
 
         let res = await postCreateNewQuiz(description, name, type, image);
         // console.log("check res:", res);
         if (res && res.EC === 0) {
-            toast.success(res.EM);
+            toast.success(
+                <div>
+                    <strong>Create New Quiz Success</strong>
+                    <div>{res.EM}</div>
+                </div>
+            );
             setName("");
             setDescription("");
             setType("");
@@ -55,7 +81,12 @@ const ManageAddQuiz = ({ fetchQuiz }) => {
             fetchQuiz();//cập nhật lại table
 
         } else {
-            toast.error(res.EM);
+            toast.error(
+                <div>
+                    <strong>Create New Quiz Failed</strong>
+                    <div>{res.EM}</div>
+                </div>
+            );
         }
     }
 
@@ -66,8 +97,8 @@ const ManageAddQuiz = ({ fetchQuiz }) => {
                     key="1"
                     aria-label="Accordion 1"
                     title={
-                        <div className="flex items-center gap-2">
-                            <FcFaq 
+                        <div className="flex items-center gap-2 justify-center">
+                            <FcFaq
                                 size={20}
                             />
                             <span>Create New Quiz</span>
@@ -75,46 +106,24 @@ const ManageAddQuiz = ({ fetchQuiz }) => {
                     }
                 >
                     <form className="space-y-6">
-                        <div>
-                            <Input
-                                value={name}
-                                onChange={(event) => setName(event.target.value)}
-                                label={
-                                    <div className="flex items-center gap-2">
-                                        <FcBriefcase 
-                                            size={20}
-                                        />
-                                        <span>Your Quiz Name</span>
-                                    </div>
-                                }
-                                type="text"
-
-                            />
-                        </div>
-
-                        <div>
-                            <Textarea
-                                value={description}
-                                onChange={(event) => setDescription(event.target.value)}
-                                className="max-w"
-                                label={
-                                    <div className="flex items-center gap-2">
-                                        <FcInspection
-                                            size={20}
-                                        />
-                                        <span>Your Quiz Description</span>
-                                    </div>
-                                }
-                                placeholder="Enter your description"
-                            />
-                        </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
+                                <Input
+                                    value={name}
+                                    onChange={(event) => setName(event.target.value)}
+                                    label="Quiz Name"
+                                    variant="bordered"
+                                    type="text"
+
+                                />
+                            </div>
+
+                            <div>
                                 <Select
-                                    className="max-w-xs"
                                     label="Difficulty"
                                     value={type}
+                                    variant="bordered"
                                     onChange={(event) => setType(event.target.value)}
                                 >
                                     <SelectItem key="EASY" value="EASY">
@@ -129,19 +138,26 @@ const ManageAddQuiz = ({ fetchQuiz }) => {
                                 </Select>
                             </div>
 
-                            {/* <div>
-                        <NumberInput label="🏆 Điểm tối đa" variant="flat" />
-                    </div> */}
+                        </div>
+
+                        <div>
+                            <Textarea
+                                value={description}
+                                onChange={(event) => setDescription(event.target.value)}
+                                className="max-w"
+                                label="Description"
+                                variant="bordered"
+                                placeholder="Enter your description"
+                            />
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {/* Left: Upload button */}
                             <div className="flex flex-col items-center justify-center">
                                 <label
                                     htmlFor="labelUpload"
                                     className="cursor-pointer flex items-center gap-2 text-blue-600"
                                 >
-                                    <FcMultipleCameras  
+                                    <FcMultipleCameras
                                         size={20}
                                     />
                                     Upload File Image
@@ -154,13 +170,12 @@ const ManageAddQuiz = ({ fetchQuiz }) => {
                                 />
                             </div>
 
-                            {/* Right: Image preview */}
                             <div className="flex items-center justify-center border rounded-md h-[150px]">
                                 {imagePreview ? (
                                     <img
                                         src={imagePreview}
                                         alt="Preview"
-                                        className="max-h-[140px]"
+                                        className="max-h-[150px]"
                                     />
                                 ) : (
                                     <span className="text-gray-400">Preview Image</span>

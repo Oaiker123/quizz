@@ -7,7 +7,8 @@ import {
     Button,
 } from "@heroui/react";
 import { getDeleteUsers } from "../../../services/apiService";
-import { Toaster, toast } from "sonner";
+// import { Toaster, toast } from "sonner";
+import { toast } from 'react-toastify';
 
 const ModalDeleteUser = (props) => {
     const { show, setShow, dataDelete } = props;
@@ -16,7 +17,12 @@ const ModalDeleteUser = (props) => {
         const data = await getDeleteUsers(dataDelete.id);
 
         if (data && data.EC === 0) {
-            toast.success(data.EM);
+            toast.success(
+                <div>
+                    <strong>Delete User Success</strong>
+                    <div>{data.EM}</div>
+                </div>
+            );
             setShow(false);
             // await fetchListUser();
             props.setCurrentPage(1);
@@ -24,7 +30,12 @@ const ModalDeleteUser = (props) => {
         }
 
         if (data && data.EC !== 0) {
-            toast.error(data.EM);
+            toast.error(
+                <div>
+                    <strong>Delete User Failed</strong>
+                    <div>{data.EM}</div>
+                </div>
+            );
         }
     };
 

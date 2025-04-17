@@ -15,7 +15,9 @@ import {
   FaCopy,
   FaUser,
   FaCogs,
+  FaQuestionCircle,
 } from "react-icons/fa";
+import { MdManageAccounts, MdManageHistory, MdQuiz } from "react-icons/md";
 import sidebarBg from "/y2.jpg";
 import { Link } from "react-router-dom";
 
@@ -75,7 +77,7 @@ const SideBar = (props) => {
           <Menu iconShape="circle">
             <SubMenu
               title="Management"
-              icon={<FaCopy style={{ color: "#FCB902", fontSize: "20px" }} />}
+              icon={<MdManageHistory style={{ color: "#FCB902", fontSize: "20px" }} />}
               suffix={
                 <span className="badge bg-warning text-dark ms-2">3</span>
               }
@@ -84,11 +86,11 @@ const SideBar = (props) => {
                 <Link to="/admin/manage-user" />
                 User Management
               </MenuItem>
-              <MenuItem icon={<FaCogs />}>
+              <MenuItem icon={<MdQuiz />}>
                 <Link to="/admin/manage-quizzes" />
                 Quiz Management
               </MenuItem>
-              <MenuItem icon={<FaChartBar />}>
+              <MenuItem icon={<FaQuestionCircle />}>
                 <Link to="/admin/manage-question" />
                 Question Management
               </MenuItem>

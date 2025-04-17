@@ -12,7 +12,8 @@ import {
 } from "@heroui/react";
 import { FaCamera } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { Toaster, toast } from "sonner";
+// import { Toaster, toast } from "sonner";
+import { toast } from 'react-toastify';
 import _ from "lodash";
 import { putUpdateQuizForAdmin } from "../../../../services/apiService";
 import { FcMultipleCameras } from "react-icons/fc";
@@ -67,24 +68,44 @@ const ModalUpdateQuiz = (props) => {
 
     const handSubmitUpdateQuiz = async () => {
         if (!name) {
-            toast.error('Invalid name')
+            toast.error(
+                <div>
+                    <strong>Invalid Name</strong>
+                    <div>Please enter a valid name.</div>
+                </div>
+            )
             return;
         }
 
         if (!description) {
-            toast.error('Invalid description')
+            toast.error(
+                <div>
+                    <strong>Invalid Description</strong>
+                    <div>Please enter a valid description.</div>
+                </div>
+            )
             return;
         }
 
         let data = await putUpdateQuizForAdmin(dataUpdate.id, name, description, type, image);
         if (data && data.EC === 0) {
-            toast.success(data.EM);
+            toast.success(
+                <div>
+                    <strong>Update Quiz Success</strong>
+                    <div>{data.EM}</div>
+                </div>
+            );
             await props.fetchQuiz();
             handleClose();
         }
 
         if (data && data.EC !== 0) {
-            toast.error(data.EM);
+            toast.error(
+                <div>
+                    <strong>Update Quiz Failed</strong>
+                    <div>{data.EM}</div>
+                </div>
+            );
         }
     }
 
@@ -103,44 +124,56 @@ const ModalUpdateQuiz = (props) => {
                         <ModalHeader>Update the quiz</ModalHeader>
                         <ModalBody>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <Input
-                                    label="Name"
-                                    type="text"
-                                    value={name}
-                                    onChange={(event) => setName(event.target.value)}
-                                    className="w-full"
-                                    placeholder="Enter your name"
-                                />
+                                <div>
+                                    <Input
+                                        label="Name"
+                                        type="text"
+                                        value={name}
+                                        variant="bordered"
+                                        onChange={(event) => setName(event.target.value)}
+                                        className="w-full"
+                                        placeholder="Enter your name"
+                                    />
+                                </div>
 
+                                <div>
+                                    <Select
+                                        className="w-full"
+                                        label="Difficulty"
+                                        variant="bordered"
+                                        selectedKeys={type ? [type] : []}
+                                        onSelectionChange={(keys) => {
+                                            const selected = Array.from(keys)[0];
+                                            setType(selected);
+                                        }}
+                                    >
+                                        <SelectItem key="EASY">Easy</SelectItem>
+                                        <SelectItem key="MEDIUM">Medium</SelectItem>
+                                        <SelectItem key="HARD">Hard</SelectItem>
+                                    </Select>
+                                </div>
+                            </div>
+
+                            <div>
                                 <Textarea
                                     value={description}
                                     onChange={(event) => setDescription(event.target.value)}
                                     label="Description"
                                     placeholder="Enter your description"
                                     className="w-full"
+                                    variant="bordered"
                                     minRows={4}
                                 />
 
-                                <Select
-                                    className="w-full"
-                                    label="Difficulty"
-                                    selectedKeys={type ? [type] : []}
-                                    onSelectionChange={(keys) => {
-                                        const selected = Array.from(keys)[0];
-                                        setType(selected);
-                                    }}
-                                >
-                                    <SelectItem key="EASY">Easy</SelectItem>
-                                    <SelectItem key="MEDIUM">Medium</SelectItem>
-                                    <SelectItem key="HARD">Hard</SelectItem>
-                                </Select>
-
-                                <div className="w-full flex flex-col items-center justify-center gap-2">
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="flex flex-col items-center justify-center">
                                     <label
                                         htmlFor="labelUpload"
-                                        className="cursor-pointer inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium transition"
+                                        className="cursor-pointer flex items-center gap-2 text-blue-600"
                                     >
-                                        <FcMultipleCameras 
+                                        <FcMultipleCameras
                                             size={20}
                                         />
                                         Upload Image
@@ -154,12 +187,12 @@ const ModalUpdateQuiz = (props) => {
                                 </div>
 
 
-                                <div className="md:col-span-2 flex items-center justify-center border border-dashed rounded-xl h-[180px] bg-gray-50">
+                                <div className="flex items-center justify-center border rounded-md h-[150px]">
                                     {previewImage ? (
                                         <img
                                             src={previewImage}
                                             alt="Preview"
-                                            className="max-h-[160px] object-contain"
+                                            className="max-h-[150px] object-contain"
                                         />
                                     ) : (
                                         <span className="text-gray-400 text-sm">No image selected</span>

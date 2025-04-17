@@ -7,6 +7,7 @@ import ModalUpdateUser from "./modalUpdateUser";
 import ModalDeleteUser from "./modalDeleteUser";
 import ModalDetailUser from "./modalDetailUser";
 import TableUserPaginate from "./tableUserPaginate";
+import { FaUserPlus } from "react-icons/fa";
 
 export const PlusIcon = ({ size = 24, width, height, ...props }) => {
   return (
@@ -105,14 +106,15 @@ const ManageUser = () => {
 
 
   return (
-    <div className="px-6 py-4">
-      <div className="flex justify-between items-center mb-6">
+    <div class="mx-auto px-4 w-full max-w-screen-xl mt-4">
+      <div className="flex justify-between items-center mb-6 p-4">
         <h2 className="text-2xl font-semibold">Manage Users</h2>
-        <Button color="primary" endContent={<PlusIcon />} onPress={() => setShowModalCreateUser(true)}>
-          Add New User
+        <Button color="primary" onPress={() => setShowModalCreateUser(true)}>
+          <FaUserPlus />
+          Add User
         </Button>
       </div>
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-6 border border-gray-200 shadow-xl rounded-2xl">
         {/* <TableUser
           listUser={listUser}
           handleClickButtonUpdate={handleClickButtonUpdate}
