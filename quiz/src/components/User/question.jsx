@@ -1,8 +1,13 @@
 import { CheckboxGroup, Checkbox } from "@heroui/react";
 import _ from "lodash";
+import { useState } from "react";
+import Lightbox from "yet-another-react-lightbox";
 
 const Question = (props) => {
     const { data, index } = props;
+
+    const [open, setOpen] = useState(false);
+
     if (_.isEmpty(data)) {
         return (
             <></>
@@ -19,15 +24,29 @@ const Question = (props) => {
     return (
         <div className="flex flex-col gap-6">
             <h2 className="text-xl font-semibold">
-                Question {index + 1}: {data.questionDescription} ?
+                Question {index + 1}: {data.questionDescription}
             </h2>
 
             {data.image ?
-                <img
-                    src={`data:image/jpeg;base64,${data.image}`}
-                    alt="Câu hỏi hình ảnh"
-                    className="w-full max-h-52 object-contain rounded-lg mb-2"
-                />
+                <div>
+                    <img
+                        onClick={() => setOpen(true)}
+                        src={`data:image/jpeg;base64,${data.image}`}
+                        alt="quiz"
+                        className="w-full max-h-52 object-contain rounded-lg mb-2"
+                    />
+                    {open === true && (
+                        <Lightbox
+                            open={open}
+                            close={() => setOpen(false)}
+                            slides={[
+                                {
+                                    src: `data:image/jpeg;base64,${data.image}`,
+                                },
+                            ]}
+                        />
+                    )}
+                </div>
                 :
                 <div className="h-52">
 
@@ -38,19 +57,12 @@ const Question = (props) => {
             {data.answers && data.answers.length &&
                 data.answers.map((a, index) => {
                     return (
-                        // <Checkbox
-                        //     checked={a.isSelected}
-                        //     key={`answer-${index}`}
-                        //     onChange={(event) => handleCheckBox(event, a.id, data.questionId)}
-                        // >
-                        //     {a.description}
-                        // </Checkbox>
                         <div
                             className="form-check"
                             key={`answer-${index}`}
                         >
                             <input
-                                className="form-check-input"
+                                className="form-check-input border-2 border-blue-700 rounded-md"
                                 type="checkbox"
                                 checked={a.isSelected}
                                 onChange={(event) => handleCheckBox(event, a.id, data.questionId)}

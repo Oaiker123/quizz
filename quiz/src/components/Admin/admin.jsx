@@ -27,7 +27,7 @@ const Admin = () => {
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex overflow-hidden h-screen">
       <div className="">
         <SideBar collapsed={collapsed} />
       </div>

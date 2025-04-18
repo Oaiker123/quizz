@@ -12,6 +12,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import { ToastContainer } from "react-toastify";
 import "yet-another-react-lightbox/styles.css";
+import i18n from "./utils/i18n";
 
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>

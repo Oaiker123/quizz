@@ -2,11 +2,14 @@ import { useEffect, useState } from "react"
 import { getQuizByUser } from "../../services/apiService"
 import { Card, CardBody, CardFooter, Image, Button } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const QuizList = () => {
     const [arrQuiz, setArrQuiz] = useState([]);
 
     const navigate = useNavigate();
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         QuizData();
@@ -44,7 +47,9 @@ const QuizList = () => {
                                         radius="full"
                                         onPress={() => navigate(`/quiz/${quiz.id}`, { state: { quizTitle: quiz.description } })}
                                     >
-                                        Start Quiz
+                                        {
+                                            t('quizlist.startquiz')
+                                        }
                                     </Button>
                                 </CardFooter>
                             </Card>
@@ -53,7 +58,10 @@ const QuizList = () => {
                 }
                 {arrQuiz && arrQuiz.length === 0 &&
                     <div className="col-span-full text-center text-gray-500 text-lg font-medium mt-10">
-                        You don't have any quiz! now...
+                        {
+
+                            t('quizlist.youdonthaveany')
+                        }
                     </div>
                 }
             </div>

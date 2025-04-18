@@ -1,0 +1,47 @@
+{
+    "homepage": {
+        "title1": "Customer Intelligence",
+        "title2": "🧠 Ready to Challenge Your Brain?",
+        "title3": "Welcome to the ultimate quiz experience – where learning meets fun, and every click brings a new discovery. Challenge yourself, expand your knowledge, and compete with others as you explore quizzes across countless exciting topics.",
+        "title4": {
+            "login": "✨ Get's started. It's free",
+            "user": "✨ Doing Quiz Now!"
+        }
+    },
+    "navbar": {
+        "home": "Home",
+        "user": "User",
+        "admin": "Admin",
+        "button": {
+            "login": "Login",
+            "logout": "Logout",
+            "signup": "SignUp",
+            "profile": "Profile"
+        }
+    },
+    "auth": {
+        "login": "Login",
+        "register": "Register",
+        "forgot": "Forgot Password?",
+        "or": "Or",
+        "createnewaccount": "Create a new account",
+        "gotohomepage": "Go to Home page",
+        "allreadyhaveanaccount": "Already have an account?",
+        "itquickandeasy": "It's quick and easy"
+    },
+    "quizlist": {
+        "startquiz": "Start Quiz",
+        "quiz": "Quiz",
+        "question": "Question",
+        "submitquiz": "Submit Quiz",
+        "pre": "Previous",
+        "next": "Next",
+        "timeelapsed": "Time Elapsed",
+        "youdonthaveany": "You don't have any quiz! now...",
+        "yourresuilt": "Your Result...",
+        "totalquestion": "Total Question",
+        "totalcorrectanswer": "Total Correct Answer",
+        "showanswer": "Show Answer",
+        "close": "Close"
+    }
+}

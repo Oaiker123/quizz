@@ -6,10 +6,15 @@ import { Button, Card } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import Question from "./question";
 import ModalResult from "./modalResult";
+import RightContent from "./Content/rightContent";
+import CountDownt from "./Content/countDownt";
+import { useTranslation } from "react-i18next";
 
 
 const DetailQuiz = () => {
     const params = useParams();
+
+    const { t } = useTranslation();
 
     const location = useLocation();
     // console.log(location);
@@ -148,34 +153,39 @@ const DetailQuiz = () => {
         }
     }
 
-    return (
-        <div className="flex flex-col md:flex-row gap-4 p-6 bg-gray-100 min-h-screen">
-            {/* Câu hỏi và lựa chọn */}
-            <div className="w-full md:w-3/4 bg-white p-6 rounded-2xl shadow-lg">
+    const onTimeUp = () => {
+        handleFinishQuiz();
+    }
 
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                    <h3 className="text-lg font-semibold">Quiz {quizId}: {location?.state?.quizTitle}</h3>
+    return (
+        <div className="flex flex-col lg:flex-row gap-6 p-4 w-full h-full">
+
+            {/* Main Content */}
+            <div className="flex-1 space-y-4">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                    <h3 className="text-2xl font-semibold text-gray-800">
+                        Quiz {quizId}: {location?.state?.quizTitle}
+                    </h3>
+                    <CountDownt
+                        onTimeUp={onTimeUp}
+                    />
                 </div>
 
-                {/* Nội dung câu hỏi */}
-                <Card className="p-4">
+                <Card className="p-4 shadow-lg rounded-2xl bg-white border">
                     <Question
                         index={index}
                         handleCheckBox={handleCheckBox}
-                        data={
-                            dataQuiz &&
-                                dataQuiz.length > 0 ?
-                                dataQuiz[index] : []
-                        }
+                        data={dataQuiz && dataQuiz.length > 0 ? dataQuiz[index] : []}
                     />
                 </Card>
 
-                <div className="flex flex-col md:flex-row justify-between gap-4 p-4">
-                    <div className="flex gap-2">
+                {/* Navigation Buttons */}
+                <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div className="flex gap-4">
                         <Button
-                            className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
+                            className="bg-gray-200 hover:bg-gray-300 text-gray-800"
                             radius="full"
-                            onPress={() => handlePrev()}
+                            onPress={handlePrev}
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -184,24 +194,24 @@ const DetailQuiz = () => {
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
                             >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M15 19l-7-7 7-7"
-                                />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                             </svg>
-                            Previous
+                            {
+                                t('quizlist.pre')
+                            }
                         </Button>
+
                         <Button
-                            className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
+                            className="bg-blue-500 hover:bg-blue-600 text-white"
                             radius="full"
-                            onPress={() => handleNext()}
+                            onPress={handleNext}
                         >
-                            Next
+                            {
+                                t('quizlist.next')
+                            }
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5"
+                                className="h-5 w-5 ml-2"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
@@ -211,54 +221,43 @@ const DetailQuiz = () => {
                         </Button>
                     </div>
 
-                    <div className="md:mt-0">
-                        <Button
-                            color="primary"
-                            onPress={() => handleFinishQuiz()}
+                    <Button
+                        color="primary"
+                        className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full shadow-md"
+                        onPress={handleFinishQuiz}
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5 mr-2"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5 mr-2"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M5 13l4 4L19 7"
-                                />
-                            </svg>
-                            Submit Quiz
-                        </Button>
-                    </div>
-
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        {
+                            t('quizlist.submitquiz')
+                        }
+                    </Button>
                 </div>
             </div>
 
-            {/* Danh sách nút tròn chọn câu hỏi */}
-            <div className="w-full md:w-1/4 bg-white p-4 rounded-2xl shadow">
-                <h3 className="text-lg font-semibold mb-4">Câu hỏi</h3>
-                <div className="flex flex-wrap gap-3">
-                    {Array.from({ length: 10 }, (_, i) => (
-                        <button
-                            key={i}
-                            className="w-10 h-10 rounded-full bg-gray-200 hover:bg-blue-500 hover:text-white text-sm font-semibold transition"
-                            title={`Câu ${i + 1}`}
-                        >
-                            {i + 1}
-                        </button>
-                    ))}
-                </div>
-            </div>
+            {/* Sidebar - Question Selector */}
+            <RightContent
+                dataQuiz={dataQuiz}
+                handleFinishQuiz={handleFinishQuiz}
+                setIndex={setIndex}
+            />
 
+
+            {/* Modal */}
             <ModalResult
                 show={isShowModalResult}
                 setShow={setIsShowModalResult}
                 dataModalResult={dataModalResult}
             />
         </div>
+
     )
 }
 

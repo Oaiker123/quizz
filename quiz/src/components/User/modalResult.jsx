@@ -6,11 +6,14 @@ import {
     ModalFooter,
     Button,
 } from "@heroui/react";
+import { useTranslation } from "react-i18next";
 
 const ModalResult = (props) => {
     const { show, setShow, dataModalResult } = props;
 
-    console.log("dataModalResult", dataModalResult);
+    const { t } = useTranslation();
+
+    // console.log("dataModalResult", dataModalResult);
 
     return (
         <Modal
@@ -24,13 +27,25 @@ const ModalResult = (props) => {
             <ModalContent>
                 {(onClose) => (
                     <>
-                        <ModalHeader>Your Result...</ModalHeader>
+                        <ModalHeader>
+                            {
+                                t("quizlist.yourresuilt")
+                            }
+                        </ModalHeader>
                         <ModalBody>
                             <div className="bg-white rounded-2xl p-6 w-full max-w-sm">
                                 <div className="flex items-center justify-between">
                                     <div>
-                                        <div className="text-xl font-semibold text-gray-700">Total Questions: <b>{dataModalResult.countTotal}</b></div>
-                                        <div className="text-xl font-semibold text-gray-700">Total Correct Answer: <b>{dataModalResult.countCorrect}</b></div>
+                                        <div className="text-xl font-semibold text-gray-700">
+                                            {
+                                                t("quizlist.totalquestion")
+                                            }
+                                            : <b>{dataModalResult.countTotal}</b></div>
+                                        <div className="text-xl font-semibold text-gray-700">
+                                            {
+                                                t("quizlist.totalcorrectanswer")
+                                            }
+                                            : <b>{dataModalResult.countCorrect}</b></div>
                                     </div>
                                     <div className="bg-green-100 text-green-600 p-3 rounded-full">
                                         {/* 🎯 SVG Target icon (Lucide-inspired or custom) */}
@@ -45,10 +60,14 @@ const ModalResult = (props) => {
                         </ModalBody>
                         <ModalFooter>
                             <Button color="danger" onPress={onClose}>
-                                Show Answers
+                                {
+                                    t("quizlist.showanswer")
+                                }
                             </Button>
                             <Button color="primary" onPress={onClose}>
-                                Close
+                                {
+                                    t("quizlist.close")
+                                }
                             </Button>
                         </ModalFooter>
                     </>

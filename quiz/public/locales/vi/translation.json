@@ -1,0 +1,47 @@
+{
+    "homepage": {
+        "title1": "Thông tin khách hàng",
+        "title2": "🧠 Bạn đã sẵn sàng thử thách trí não của mình chưa?",
+        "title3": "Chào mừng đến với trải nghiệm đố vui đỉnh cao – nơi học tập kết hợp với vui chơi, và mỗi cú nhấp chuột mang đến một khám phá mới. Hãy thử thách bản thân, mở rộng kiến thức của bạn và cạnh tranh với những người khác khi bạn khám phá các câu đố trên vô số chủ đề thú vị.",
+        "title4": {
+            "login": "✨ Hãy bắt đầu. Nó miễn phí",
+            "user": "✨ Làm bài kiểm tra ngay bây giờ!"
+        }
+    },
+    "navbar": {
+        "home": "Trang Chủ",
+        "user": "Người Dùng",
+        "admin": "Quản Trị Viên",
+        "button": {
+            "login": "Đăng Nhập",
+            "logout": "Đăng Xuất",
+            "signup": "Đăng Kí",
+            "profile": "Hồ Sơ Người Dùng"
+        }
+    },
+    "auth": {
+        "login": "Đăng Nhập",
+        "register": "Đăng Kí",
+        "forgot": "Quên mật khẩu?",
+        "or": "Hoặc",
+        "createnewaccount": "Tạo một tài khoản mới",
+        "gotohomepage": "Đi đến trang chủ",
+        "allreadyhaveanaccount": "Bạn đã có tài khoản?",
+        "itquickandeasy": "Thật nhanh chóng và dễ dàng"
+    },
+    "quizlist": {
+        "startquiz": "Bắt Đầu Bài Kiểm Tra",
+        "quiz": "Câu đố",
+        "question": "Câu Hỏi",
+        "submitquiz": "Nộp Bài Kiểm Tra",
+        "pre": "Trước",
+        "next": "Sau",
+        "timeelapsed": "Thời gian",
+        "youdonthaveany": "Bạn không có bài kiểm tra nào! bây giờ...",
+        "yourresuilt": "Kết quả của bạn...",
+        "totalquestion": "Tổng số câu hỏi",
+        "totalcorrectanswer": "Tổng số câu trả lời đúng",
+        "showanswer": "Hiển thị câu trả lời",
+        "close": "Đóng"
+    }
+}
