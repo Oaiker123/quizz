@@ -14,6 +14,7 @@ import ManageQuiz from "./components/Admin/Content/Quizz/manageQuiz.jsx";
 import Question from "./components/Admin/Content/Question/question.jsx";
 import PrivateRoute from "./Routes/privateRoute.jsx";
 import { Suspense } from "react";
+import Setting from "./components/User/Setting.jsx";
 
 const Layout = () => {
     return (
@@ -29,6 +30,7 @@ const Layout = () => {
                             </PrivateRoute>
                             
                         } />
+                        <Route path="/setting" element={<Setting />} />
                     </Route>
                     <Route path="/quiz/:id" element={<DetailQuiz />} />
                     <Route path="/admin" element={

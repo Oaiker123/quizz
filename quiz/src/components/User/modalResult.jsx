@@ -9,7 +9,7 @@ import {
 import { useTranslation } from "react-i18next";
 
 const ModalResult = (props) => {
-    const { show, setShow, dataModalResult } = props;
+    const { show, setShow, dataModalResult, handleShowAnswer, isShowAnswer } = props;
 
     const { t } = useTranslation();
 
@@ -59,10 +59,15 @@ const ModalResult = (props) => {
                             </div>
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="danger" onPress={onClose}>
-                                {
-                                    t("quizlist.showanswer")
-                                }
+                            <Button
+                                color="danger"
+                                onPress={() => {
+                                    onClose();
+                                    handleShowAnswer();
+                                }}
+                                isDisabled={isShowAnswer}
+                            >
+                                {t("quizlist.showanswer")}
                             </Button>
                             <Button color="primary" onPress={onClose}>
                                 {

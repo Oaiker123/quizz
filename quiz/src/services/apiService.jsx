@@ -112,15 +112,30 @@ const getQuizWithQA = (quizId) => {
 }
 
 const postQuizUpsertQA = (data) => {
-  return axios.post(`/api/v1/quiz-upsert-qa`, {...data});
+  return axios.post(`/api/v1/quiz-upsert-qa`, { ...data });
 }
 
 const logout = (email, refresh_token) => {
-  return axios.post(`/api/v1/logout`,{
+  return axios.post(`/api/v1/logout`, {
     email,
     refresh_token
   });
 }
+
+const getOverview = () => {
+  return axios.get(`/api/v1/overview`);
+}
+
+const postChangePassword = (current_password, new_password) => {
+  return axios.post(`/api/v1/change-password`, {
+    current_password,
+    new_password,
+  });
+}
+
+const getQuizHistory = () => {
+  return axios.get('/api/v1/history');
+};
 
 export {
   postCreateUser,
@@ -142,5 +157,8 @@ export {
   postAssignQuiz,
   getQuizWithQA,
   postQuizUpsertQA,
-  logout
+  logout,
+  getOverview,
+  postChangePassword,
+  getQuizHistory
 };

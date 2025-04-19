@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -26,6 +26,9 @@ import { logout } from "../../services/apiService";
 import { doLogout } from "../../redux/action/userAction";
 import Language from "./language";
 import { useTranslation } from "react-i18next";
+import { TbPasswordUser } from "react-icons/tb";
+import { RiChatHistoryFill } from "react-icons/ri";
+import ModalChangePasswod from "../Admin/Content/Auth/showModalChangePassword";
 
 export const AcmeLogo = () => {
   return (
@@ -44,6 +47,8 @@ export const AcmeLogo = () => {
 const Header = () => {
   const { t } = useTranslation();
 
+  const [showModalChangePassword, setShowModalChangePassword] = useState(false);
+
   const isAuthenticated = useSelector(state => state.user.isAuthenticated);
 
   const account = useSelector(state => state.user.account);
@@ -51,7 +56,7 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const menuItems = [
     {
@@ -211,10 +216,26 @@ const Header = () => {
                   <DropdownItem
                     key="settings"
                     startContent={<CgProfile />}
+                    onPress={() => navigate("/setting")}
                   >
                     {
                       t('navbar.button.profile')
                     }
+                  </DropdownItem>
+                  <DropdownItem
+                    key="logout"
+
+                    onPress={() => handleLogout()}
+                    startContent={<RiChatHistoryFill />}
+                  >
+                    Lịch sử Làm Quiz
+                  </DropdownItem>
+                  <DropdownItem
+                    key="changepassword"
+                    onPress={() => setShowModalChangePassword(true)}
+                    startContent={<TbPasswordUser />}
+                  >
+                    Quên mật khẩu
                   </DropdownItem>
                   <DropdownItem
                     key="logout"
@@ -255,6 +276,12 @@ const Header = () => {
         </NavbarMenu>
 
       </Navbar>
+
+      <ModalChangePasswod
+        show={showModalChangePassword}
+        setShow={setShowModalChangePassword}
+      />
+
     </>
   );
 }

@@ -43,5 +43,15 @@
         "totalcorrectanswer": "Total Correct Answer",
         "showanswer": "Show Answer",
         "close": "Close"
+    },
+    "dashboard": {
+        "welcometodashboard": "Welcome to Dashboard",
+        "thisisyourdashboard": "This is your dashboard where you can manage your account, quizzes, and more.",
+        "mostvisitedpage": "Most Visited Page",
+        "socialmediareferrals": "Social Media Referrals",
+        "totaluser": "Total User",
+        "totalquiz": "Total Quiz",
+        "totalquestion": "Total Question",
+        "totalanswer": "Total Answer"
     }
 }

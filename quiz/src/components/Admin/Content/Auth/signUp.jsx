@@ -12,7 +12,7 @@ const SignUp = () => {
 
     const { t } = useTranslation();
 
-    const [isVisible, setIsVisible] = React.useState(false);
+    const [isVisible, setIsVisible] = useState(false);
 
     const toggleVisibility = () => setIsVisible(!isVisible);
 

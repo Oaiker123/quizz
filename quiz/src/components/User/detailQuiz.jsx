@@ -21,53 +21,51 @@ const DetailQuiz = () => {
     const quizId = params.id;
 
     const [dataQuiz, setDataQuiz] = useState([]);
+
     const [index, setIndex] = useState(0);
 
     const [isShowModalResult, setIsShowModalResult] = useState(false);
 
     const [dataModalResult, setDataModalResult] = useState({});
+
+    const [isSubmitQuiz, setIsSubmitQuiz] = useState(false);
+
+    const [isShowAnswer, setIsShowAnswer] = useState(false);
     useEffect(() => {
         fetchQuestion();
     }, [quizId])
 
     const fetchQuestion = async () => {
         let res = await getDataQuiz(quizId);
-        // console.log("check res", res);
         if (res && res.EC === 0) {
-            // console.log(res.DT);
             let raw = res.DT;
             let data = _.chain(raw)
-
+                // Group the elements of Array based on `id` property
                 .groupBy("id")
-
+                // `key` is group's name (color), `value` is the array of objects
                 .map((value, key) => {
                     let answers = [];
                     let questionDescription, image = null;
-
                     value.forEach((item, index) => {
-                        // console.log("item at index", index, item);
                         if (index === 0) {
                             questionDescription = item.description;
-                            image = item.image
+                            image = item.image;
                         }
                         item.answers.isSelected = false;
+                        item.answers.isCorrect = false;
                         answers.push(item.answers);
-                        // console.log("item", item.answers);
                     })
-                    // console.log("key", key, "value", value);
-
+                    answers = _.orderBy(answers, ['id'], ['asc']);
 
                     return {
                         questionId: key,
                         answers,
                         questionDescription,
                         image
-                    };
+                    }
                 })
                 .value();
-
-            // console.log(data);
-            setDataQuiz(data);
+            setDataQuiz(data)
         }
     }
     // console.log("Check data quiz", dataQuiz);
@@ -81,29 +79,21 @@ const DetailQuiz = () => {
         if (dataQuiz && dataQuiz.length > index + 1) {
             setIndex(index + 1);
         }
-
-
-
     }
 
     // xu ly check box
     const handleCheckBox = (answerId, questionId) => {
-        let dataQuizClone = _.cloneDeep(dataQuiz);
-
-        let question = dataQuizClone.find(item => +item.questionId === +questionId);
+        let dataQuizClone = _.cloneDeep(dataQuiz); //react hook doesn't merge state
+        let question = dataQuizClone.find(item => +item.questionId === +questionId)
         if (question && question.answers) {
-            let b = question.answers.map(item => {
+            question.answers = question.answers.map(item => {
                 if (+item.id === +answerId) {
-                    item.isSelected = !item.isSelected
+                    item.isSelected = !item.isSelected;
                 }
-                return item
+                return item;
             })
-            // console.log("question", question);
-            // console.log("b", b);
-            question.answers = b;
         }
-
-        let index = dataQuizClone.findIndex(item => +item.questionId === +questionId);
+        let index = dataQuizClone.findIndex(item => +item.questionId === +questionId)
         if (index > -1) {
             dataQuizClone[index] = question;
             setDataQuiz(dataQuizClone);
@@ -111,46 +101,70 @@ const DetailQuiz = () => {
     }
 
     const handleFinishQuiz = async () => {
-        // console.log("dataQuiz", dataQuiz);
         let payload = {
             quizId: +quizId,
             answers: []
-        }
+        };
         let answers = [];
         if (dataQuiz && dataQuiz.length > 0) {
             dataQuiz.forEach(question => {
-
                 let questionId = question.questionId;
                 let userAnswerId = [];
 
-                //todo: get userAnswerId
-                question.answers.forEach(answer => {
-                    if (answer.isSelected === true) {
-                        userAnswerId.push(answer.id);
+                question.answers.forEach(a => {
+                    if (a.isSelected === true) {
+                        userAnswerId.push(a.id)
                     }
                 })
                 answers.push({
-
                     questionId: +questionId,
                     userAnswerId: userAnswerId
                 })
             })
+
             payload.answers = answers;
-            // console.log("payload", payload);
-            //todo: call api
+            //submit api
             let res = await postSubmitQuiz(payload);
-            console.log("res", res);
             if (res && res.EC === 0) {
+                setIsSubmitQuiz(true);
                 setDataModalResult({
                     countCorrect: res.DT.countCorrect,
                     countTotal: res.DT.countTotal,
                     quizData: res.DT.quizData
                 })
                 setIsShowModalResult(true);
+
+                //update DataQuiz with correct answer
+                if (res.DT && res.DT.quizData) {
+                    let dataQuizClone = _.cloneDeep(dataQuiz);
+                    let a = res.DT.quizData;
+                    for (let q of a) {
+                        for (let i = 0; i < dataQuizClone.length; i++) {
+                            if (+q.questionId === +dataQuizClone[i].questionId) {
+                                //update answer
+                                let newAnswers = [];
+                                for (let j = 0; j < dataQuizClone[i].answers.length; j++) {
+                                    let s = q.systemAnswers.find(item => +item.id === +dataQuizClone[i].answers[j].id)
+                                    if (s) {
+                                        dataQuizClone[i].answers[j].isCorrect = true;
+                                    }
+                                    newAnswers.push(dataQuizClone[i].answers[j]);
+                                }
+                                dataQuizClone[i].answers = newAnswers;
+                            }
+                        }
+                    }
+                    setDataQuiz(dataQuizClone);
+                }
             } else {
-                alert("Something went wrong!");
+                alert('somthing wrongs....')
             }
         }
+    }
+
+    const handleShowAnswer = () => {
+        if (!isSubmitQuiz) return;
+        setIsShowAnswer(true);
     }
 
     const onTimeUp = () => {
@@ -175,6 +189,8 @@ const DetailQuiz = () => {
                     <Question
                         index={index}
                         handleCheckBox={handleCheckBox}
+                        isShowAnswer={isShowAnswer}
+                        isSubmitQuiz={isSubmitQuiz}
                         data={dataQuiz && dataQuiz.length > 0 ? dataQuiz[index] : []}
                     />
                 </Card>
@@ -255,6 +271,8 @@ const DetailQuiz = () => {
                 show={isShowModalResult}
                 setShow={setIsShowModalResult}
                 dataModalResult={dataModalResult}
+                handleShowAnswer={handleShowAnswer}
+                isShowAnswer={isShowAnswer}
             />
         </div>
 
